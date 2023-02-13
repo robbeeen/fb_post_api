@@ -7,7 +7,7 @@ from fb_post.constants.exception_messages import INVALID_USER_ID
 
 
 class PresenterImplementation(PresenterInterface):
-    def raise_exception_for_invalid_user(self) -> HttpResponse:
+    def get_invalid_user_response(self) -> HttpResponse:
         response_dict = {
             "response": INVALID_USER_ID[0],
             "http_status_code": 400,
@@ -17,8 +17,9 @@ class PresenterImplementation(PresenterInterface):
         return HttpResponse(content=json.dumps(response_dict),
                             status=response_dict["http_status_code"])
 
-    def post_details_response(self, post_id: int) -> Dict[str,int]:
+    def get_success_post_response(self, post_id: int) -> HttpResponse:
         post_id_dict = {
             "post_id": post_id
         }
-        return post_id_dict
+        return HttpResponse(content=json.dumps(post_id_dict),
+                            status=200)

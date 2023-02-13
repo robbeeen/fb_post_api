@@ -1,14 +1,15 @@
 from abc import ABC
 from abc import abstractmethod
 
+from django.http import HttpResponse
 
 
 class PresenterInterface(ABC):
 
     @abstractmethod
-    def raise_exception_for_invalid_user(self):
+    def get_invalid_user_response(self) -> HttpResponse:
         pass
 
     @abstractmethod
-    def post_details_response(self, post_id: int):
+    def get_success_post_response(self, post_id: int) -> HttpResponse:
         pass

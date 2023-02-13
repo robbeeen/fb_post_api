@@ -21,19 +21,21 @@ class CreatePostInteractor:
     def create_post_wrapper(self, user_id: int, post_content: str) -> Any:
         try:
             post_id = self.create_post(user_id, post_content)
-            return self.presenter.post_details_response(post_id)
+            return self.presenter.get_success_post_response(post_id)
         except InvalidUserException:
-            return self.presenter.raise_exception_for_invalid_user()
+            return self.presenter.get_invalid_user_response()
 
     def create_post(self, user_id: int, post_content: str) -> int:
 
-        is_user_not_exists = not self.user_storage.is_user_exists(
-            user_id=user_id)
-
-        if is_user_not_exists:
-            raise InvalidUserException
+        self._validate_user_id(user_id)
 
         post_id = self.post_storage.create_post(user_id=user_id,
                                                 post_content=post_content)
 
         return post_id
+
+    def _validate_user_id(self, user_id: int) -> None:
+        is_user_not_exists = not self.user_storage.is_user_exists(
+            user_id=user_id)
+        if is_user_not_exists:
+            raise InvalidUserException
