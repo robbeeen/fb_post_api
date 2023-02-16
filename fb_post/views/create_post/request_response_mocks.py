@@ -2,6 +2,7 @@
 
 REQUEST_BODY_JSON = """
 {
+    "post_id": 1,
     "content": "string",
     "posted_by": 1
 }

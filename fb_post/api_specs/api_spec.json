@@ -35,6 +35,10 @@
     "PostDetails": {
       "type": "object",
       "properties": {
+        "post_id": {
+          "type": "integer",
+          "format": "int64"
+        },
         "content": {
           "type": "string"
         },
@@ -47,7 +51,7 @@
         "posted_by"
       ]
     },
-    "PostResponseDetails": {
+    "PostId": {
       "type": "object",
       "properties": {
         "post_id": {
@@ -59,62 +63,16 @@
         "post_id"
       ]
     },
-    "DefaultHttpExceptionFields": {
+    "PostResponseDetails": {
       "type": "object",
       "properties": {
-        "response": {
-          "type": "string"
-        },
-        "http_status_code": {
-          "type": "integer"
-        },
-        "res_status": {
-          "type": "string",
-          "enum": [
-            "DUPLICATE_TO_IDS",
-            "INVALID_INPUT_TO_IDS"
-          ]
+        "post_id": {
+          "type": "integer",
+          "format": "int64"
         }
       },
       "required": [
-        "response",
-        "http_status_code",
-        "res_status"
-      ]
-    },
-    "TodoId": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer"
-        }
-      }
-    },
-    "BasicTodo": {
-      "type": "object",
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "is_completed": {
-          "type": "boolean"
-        },
-        "remind_at": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "description"
-      ]
-    },
-    "Todo": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/BasicTodo"
-        },
-        {
-          "$ref": "#/definitions/TodoId"
-        }
+        "post_id"
       ]
     },
     "CreatePostFailure": {
@@ -132,14 +90,162 @@
             "INVALID_USER_ID"
           ]
         }
+      }
       },
+      "GetPostFailure": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "string"
+          },
+          "http_status_code": {
+            "type": "integer"
+          },
+          "res_status": {
+            "type": "string",
+            "enum": [
+              "INVALID_POST_ID"
+            ]
+          }
+        },
+        "required": [
+          "response",
+          "http_status_code",
+          "res_status"
+        ]
+      },
+      "UserDetails": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "profile_pic": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "user_id",
+          "profile_pic"
+        ]
+      },
+      "ReactionsDetails": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "count",
+          "type"
+        ]
+      },
+      "CommentsDetails": {
+        "type": "object",
+        "properties": {
+          "comment_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "commenter": {
+            "$ref": "#/definitions/UserDetails"
+          },
+          "commented_at": {
+            "type": "string"
+          },
+          "comment_content": {
+            "type": "string"
+          },
+          "reactions": {
+            "$ref": "#/definitions/ReactionsDetails"
+          }
+        },
+        "required": [
+          "comment_id",
+          "commenter",
+          "commented_at",
+          "comment_content",
+          "reactions"
+        ]
+      },
+    "GetPostDetails": {
+
+        "type": "object",
+        "properties": {
+          "post_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "posted_by": {
+            "$ref": "#/definitions/UserDetails"
+          },
+          "posted_at": {
+            "type": "string"
+          },
+          "post_content": {
+            "type": "string"
+          },
+          "reactions": {
+            "$ref": "#/definitions/ReactionsDetails"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+
+              "allOf": [
+                {
+                  "$ref": "#/definitions/CommentsDetails"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "replies_count": {
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "replies": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/CommentsDetails"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "comments_count": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
       "required": [
-        "response",
-        "http_status_code",
-        "res_status"
+        "post_id",
+        "posted_by",
+        "posted_at",
+        "post_content"
       ]
     }
   },
+
   "parameters": {
     "CreatePost": {
       "description": "Post to create",
@@ -149,19 +255,9 @@
       "schema": {
         "$ref": "#/definitions/PostDetails"
       }
-    },
-    "GetPost": {
-      "description": "Get details of a post",
-      "name": "GetPostDetails",
-      "in": "body",
-      "required": true,
-
     }
   },
   "responses": {
-    "SuccessResponse": {
-      "description": "success response"
-    },
     "CreatePostSuccessResponse": {
       "description": "Object created",
       "schema": {
@@ -172,6 +268,18 @@
       "description": "Not Found",
       "schema": {
         "$ref": "#/definitions/CreatePostFailure"
+      }
+    },
+    "GetPostFailureResponse": {
+      "description": "Not Found",
+      "schema": {
+        "$ref": "#/definitions/GetPostFailure"
+      }
+    },
+    "GetPostSuccessResponseDetails": {
+      "description": "Get Post Details",
+      "schema": {
+        "$ref": "#/definitions/GetPostDetails"
       }
     }
   },
@@ -196,17 +304,33 @@
         }
       }
     },
-    "/get_post/": {
-      "post": {
+    "/get_post/{post_id}": {
+      "get": {
         "operationId": "get_post",
-        "summary": "Gets Post Detials",
+        "summary": "Gets Post Details",
         "parameters": [
           {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "description": "Post Id",
+            "type": "integer"
           }
         ],
         "responses": {
+          "200": {
+            "$ref": "#/responses/GetPostSuccessResponseDetails"
+          },
+          "400": {
+            "$ref": "#/responses/GetPostFailureResponse"
+          }
         }
       }
     }
   }
 }
+
+
+
+
+
