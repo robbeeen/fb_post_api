@@ -26,17 +26,14 @@ class TestCase01CreatePostAPITestCase(TestUtils):
         query_params = {}
         headers = {}
         user_id = 1
-        post_content = "a new post "
         expected_output = True
-        user = UserFactory(id=user_id)
-        post_storage = PostStorageImplementation()
+        UserFactory(id=user_id)
         response = self.make_api_call(body=body,
                                       path_params=path_params,
                                       query_params=query_params,
                                       headers=headers,
                                       snapshot=snapshot)
-        post_id = post_storage.create_post(user_id=user_id,
-                                           post_content=post_content)
 
-        actual_output = Post.objects.filter(id=post_id).exists()
+        actual_output = Post.objects.filter(posted_by=1,
+                                            content="string").exists()
         assert actual_output == expected_output

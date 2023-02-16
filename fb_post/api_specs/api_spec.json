@@ -150,21 +150,12 @@
         "$ref": "#/definitions/PostDetails"
       }
     },
-    "TodoId": {
-      "description": "todo id",
-      "in": "path",
-      "name": "id",
-      "required": true,
-      "type": "integer"
-    },
-    "BasicTodo": {
-      "description": "Todo Parameter",
+    "GetPost": {
+      "description": "Get details of a post",
+      "name": "GetPostDetails",
       "in": "body",
-      "name": "todo",
       "required": true,
-      "schema": {
-        "$ref": "#/definitions/BasicTodo"
-      }
+
     }
   },
   "responses": {
@@ -202,6 +193,18 @@
           "400": {
             "$ref": "#/responses/CreatePostFailureResponse"
           }
+        }
+      }
+    },
+    "/get_post/": {
+      "post": {
+        "operationId": "get_post",
+        "summary": "Gets Post Detials",
+        "parameters": [
+          {
+          }
+        ],
+        "responses": {
         }
       }
     }
