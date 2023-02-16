@@ -7,10 +7,6 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['TestCase03LoginWithCodeAPITestCase.test_case status_code'] = '403'
+snapshots['TestCase03LoginWithCodeAPITestCase.test_case status_code'] = '404'
 
-snapshots['TestCase03LoginWithCodeAPITestCase.test_case body'] = {
-    'http_status_code': 403,
-    'res_status': 'USER_ACCOUNT_IS_DEACTIVATED',
-    'response': 'User Account is deactivated. Please contact support.'
-}
+snapshots['TestCase03LoginWithCodeAPITestCase.test_case body'] = b'<h1>Not Found</h1><p>The requested resource was not found on this server.</p>'

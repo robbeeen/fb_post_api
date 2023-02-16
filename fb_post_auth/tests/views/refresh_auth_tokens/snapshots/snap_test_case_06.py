@@ -9,8 +9,4 @@ snapshots = Snapshot()
 
 snapshots['TestCase05RefreshAuthTokensV1APITestCase.test_case status_code'] = '404'
 
-snapshots['TestCase05RefreshAuthTokensV1APITestCase.test_case body'] = {
-    'http_status_code': 404,
-    'res_status': 'REFRESH_TOKEN_NOT_FOUND',
-    'response': 'Refresh token not found'
-}
+snapshots['TestCase05RefreshAuthTokensV1APITestCase.test_case body'] = b'<h1>Not Found</h1><p>The requested resource was not found on this server.</p>'

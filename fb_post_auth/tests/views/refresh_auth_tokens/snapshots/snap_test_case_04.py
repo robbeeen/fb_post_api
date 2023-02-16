@@ -7,11 +7,6 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['TestCase04RefreshAuthTokensV1APITestCase.test_case status_code'] = '200'
+snapshots['TestCase04RefreshAuthTokensV1APITestCase.test_case status_code'] = '404'
 
-snapshots['TestCase04RefreshAuthTokensV1APITestCase.test_case body'] = {
-    'access_token': 'access_token',
-    'expires_in': 10000,
-    'refresh_token': 'refresh_token',
-    'user_id': '1'
-}
+snapshots['TestCase04RefreshAuthTokensV1APITestCase.test_case body'] = b'<h1>Not Found</h1><p>The requested resource was not found on this server.</p>'

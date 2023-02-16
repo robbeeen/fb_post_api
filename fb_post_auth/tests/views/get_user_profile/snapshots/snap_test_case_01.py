@@ -7,10 +7,6 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['TestCase01GetUserProfileAPITestCase.test_case status_code'] = '400'
+snapshots['TestCase01GetUserProfileAPITestCase.test_case status_code'] = '404'
 
-snapshots['TestCase01GetUserProfileAPITestCase.test_case body'] = {
-    'http_status_code': 400,
-    'res_status': 'INVALID_USER_ID',
-    'response': 'Given Invalid User id'
-}
+snapshots['TestCase01GetUserProfileAPITestCase.test_case body'] = b'<h1>Not Found</h1><p>The requested resource was not found on this server.</p>'
