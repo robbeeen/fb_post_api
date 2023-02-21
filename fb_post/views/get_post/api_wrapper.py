@@ -31,4 +31,4 @@ def api_wrapper(*args, **kwargs):
 
     response = interactor.get_post_wrapper(post_id=post_id)
 
-    return response
+    # return response
