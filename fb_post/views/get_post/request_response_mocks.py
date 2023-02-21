@@ -1,11 +1,5 @@
 
 
-REQUEST_BODY_JSON = """
-{
-    "post_id": 1
-}
-"""
-
 
 RESPONSE_200_JSON = """
 {

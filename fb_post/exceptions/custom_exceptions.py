@@ -5,3 +5,7 @@ INVALID_POST_CONTENT = (
 
 class InvalidUserException(Exception):
     pass
+
+
+class InvalidPostException(Exception):
+    pass

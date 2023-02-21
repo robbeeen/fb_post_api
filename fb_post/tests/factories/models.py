@@ -21,3 +21,6 @@ class PostFactory(factory.django.DjangoModelFactory):
     content = factory.Sequence(lambda n: 'Content %s' % n)
     posted_at = factory.LazyFunction(datetime.now)
     posted_by = factory.SubFactory(UserFactory)
+
+
+# class ReactionFactory(factory.django.DjangoModelFactory)
