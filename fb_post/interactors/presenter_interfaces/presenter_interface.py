@@ -17,7 +17,8 @@ class PresenterInterface(ABC):
         pass
 
     @abstractmethod
-    def success_get_post_response(self, response_dto: ResponseDto) ->HttpResponse:
+    def success_get_post_response(self,
+                                  response_dto: ResponseDto) -> HttpResponse:
         pass
 
     @abstractmethod

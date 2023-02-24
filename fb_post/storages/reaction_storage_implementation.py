@@ -7,9 +7,19 @@ from fb_post.models.reaction import Reaction
 
 
 class ReactionStorageImplementation(ReactionStorageInterface):
-    def get_reactions(self, post_id, comment_ids):
-        reactions = Reaction.objects.filter(post_id=post_id,
-                                            comment_id__in=comment_ids)
+    def get_reactions_on_post(self, post_id: int) -> List[ReactionDto]:
+        reactions = Reaction.objects.filter(
+            post_id=post_id)
+        reaction_post_dtos = [
+            self._prepare_reaction_post_dto(reaction)
+            for reaction in reactions
+        ]
+        return reaction_post_dtos
+
+    def get_reactions_on_comments(self, comment_ids: List[int]) -> List[
+        ReactionDto]:
+        reactions = Reaction.objects.filter(
+            comment_id__in=comment_ids)
         reaction_post_dtos = [
             self._prepare_reaction_post_dto(reaction)
             for reaction in reactions
@@ -18,7 +28,7 @@ class ReactionStorageImplementation(ReactionStorageInterface):
         return reaction_post_dtos
 
     @staticmethod
-    def _prepare_reaction_post_dto(reaction):
+    def _prepare_reaction_post_dto(reaction: Reaction) -> ReactionDto:
         return ReactionDto(
             post_id=reaction.post_id,
             comment_id=reaction.comment_id,

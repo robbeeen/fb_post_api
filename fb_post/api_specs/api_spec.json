@@ -99,7 +99,8 @@
             "type": "string"
           },
           "http_status_code": {
-            "type": "integer"
+            "type": "integer",
+            "format": "int64"
           },
           "res_status": {
             "type": "string",

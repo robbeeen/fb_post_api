@@ -1,5 +1,6 @@
 import json
 from itertools import count
+from typing import List, Any, Dict
 
 from django.http import HttpResponse
 
@@ -7,20 +8,24 @@ from fb_post.interactors.presenter_interfaces.presenter_interface import \
     PresenterInterface
 from fb_post.constants.exception_messages import INVALID_USER_ID, \
     INVALID_POST_ID
+from fb_post.interactors.storage_interfaces.dtos import UserDto, PostDto, \
+    ResponseDto, ReactionDto, CommentDto
 
 
-def get_reaction_on_post(reactions_dtos, post_id):
+def get_reaction_on_post(reactions_dtos: List[ReactionDto], post_id: int) -> \
+        Dict[str, Any]:
     list_of_reactions = []
     for reactions_dto in reactions_dtos:
         if reactions_dto.post_id == post_id:
             list_of_reactions.append(reactions_dto.type)
 
     return {"count": len(list_of_reactions),
-            "type": list_of_reactions
+            "type": list(set(list_of_reactions))
             }
 
 
-def get_commenter(comments_on_post_dto, commenter_dtos ):
+def get_commenter(comments_on_post_dto: CommentDto,
+                  commenter_dtos: List[UserDto]) -> Dict[str, Any]:
     user_id = comments_on_post_dto.commented_by_id
     for commenter_dto in commenter_dtos:
         if commenter_dto.user_id == user_id:
@@ -31,7 +36,8 @@ def get_commenter(comments_on_post_dto, commenter_dtos ):
             }
 
 
-def get_reply_commenter(reply_dto, user_dtos):
+def get_reply_commenter(reply_dto: CommentDto, user_dtos: List[UserDto]) -> \
+        Dict[str, Any]:
     for user_dto in user_dtos:
         if user_dto.user_id == reply_dto.commented_by_id:
             return {
@@ -41,7 +47,8 @@ def get_reply_commenter(reply_dto, user_dtos):
             }
 
 
-def get_reaction_on_comment(reactions_dtos, comment_id):
+def get_reaction_on_comment(reactions_dtos: List[ReactionDto],
+                            comment_id: int) -> Dict[str, Any]:
     list_of_reactions = []
     for reactions_dto in reactions_dtos:
         if reactions_dto.comment_id == comment_id:
@@ -49,11 +56,13 @@ def get_reaction_on_comment(reactions_dtos, comment_id):
 
     return {
         "count": len(list_of_reactions),
-        "type": list_of_reactions
+        "type": list(set(list_of_reactions))
     }
 
 
-def get_replies(replies_dtos, user_dtos, comment_id, reactions_dtos):
+def get_replies(replies_dtos: List[CommentDto], user_dtos: List[UserDto],
+                comment_id: int, reactions_dtos: List[ReactionDto]) -> List[
+    Dict[str, Any]]:
     list_of_replies = []
     for reply_on_comment_dto in replies_dtos:
         if reply_on_comment_dto.parent_comment_id == comment_id:
@@ -71,8 +80,10 @@ def get_replies(replies_dtos, user_dtos, comment_id, reactions_dtos):
     return list_of_replies
 
 
-def get_comments(comments_on_post_dtos, replies_dtos, user_dtos,
-                 post_id, reactions_dtos):
+def get_comments(comments_on_post_dtos: List[CommentDto],
+                 replies_dtos: List[CommentDto], user_dtos: List[UserDto],
+                 post_id: int, reactions_dtos: List[ReactionDto]) -> List[
+    Dict[str, Any]]:
     list_of_comments = []
 
     for comments_on_post_dto in comments_on_post_dtos:
@@ -99,7 +110,7 @@ def get_comments(comments_on_post_dtos, replies_dtos, user_dtos,
     return list_of_comments
 
 
-def get_user(user_dtos, post_dto):
+def get_user(user_dtos: List[UserDto], post_dto: PostDto) -> Dict[str, Any]:
     for user_dto in user_dtos:
         if user_dto.user_id == post_dto.posted_by_id:
             return {
@@ -137,7 +148,8 @@ class PresenterImplementation(PresenterInterface):
         return HttpResponse(content=json.dumps(response_dict),
                             status=response_dict["http_status_code"])
 
-    def success_get_post_response(self, response_dto):
+    def success_get_post_response(self,
+                                  response_dto: ResponseDto) -> HttpResponse:
         post_dto = response_dto.post_dto
         user_dtos = response_dto.user_dtos
         comments_on_post_dtos = response_dto.comment_dtos
@@ -157,6 +169,5 @@ class PresenterImplementation(PresenterInterface):
                                      reactions_dtos),
             "comments_count": len(comments_on_post_dtos)
         }
-
         return HttpResponse(content=json.dumps(response, default=str),
                             status=200)

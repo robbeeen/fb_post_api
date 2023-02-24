@@ -1,8 +1,5 @@
 import json
 
-from django.http import HttpResponse
-
-from fb_post.constants.exception_messages import INVALID_USER_ID
 from fb_post.presenters.presenter_implementation import PresenterImplementation
 
 
@@ -22,7 +19,7 @@ class TestPresenterCreatePost:
         # Assert
         assert json.loads(response.content) == expected_response
 
-    def test_response_for_invalid_user(self,snapshot):
+    def test_response_for_invalid_user(self, snapshot):
         # Arrange
         presenter = PresenterImplementation()
 

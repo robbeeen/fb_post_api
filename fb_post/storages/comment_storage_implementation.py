@@ -27,7 +27,6 @@ class CommentStorageImplementation(CommentStorageInterface):
         ]
         return replies_post_dtos
 
-
     @staticmethod
     def _prepare_reply_dto(reply) -> CommentDto:
         return CommentDto(

@@ -7,6 +7,10 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['TestCase01LoginWithCodeAPITestCase.test_case status_code'] = '404'
+snapshots['TestCase01LoginWithCodeAPITestCase.test_case status_code'] = '403'
 
-snapshots['TestCase01LoginWithCodeAPITestCase.test_case body'] = b'<h1>Not Found</h1><p>The requested resource was not found on this server.</p>'
+snapshots['TestCase01LoginWithCodeAPITestCase.test_case body'] = {
+    'http_status_code': 403,
+    'res_status': 'INVALID_CREDENTIALS',
+    'response': 'Invalid Credentials. Please enter valid credentials or contact support.'
+}

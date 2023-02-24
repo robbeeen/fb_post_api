@@ -1,4 +1,4 @@
-from typing import Any
+
 
 from django.http import HttpResponse
 
@@ -30,7 +30,7 @@ class GetPostInteractor:
         self.presenter = presenter
         self.post_id = post_id
 
-    def get_post_wrapper(self, post_id: int) -> Any:
+    def get_post_wrapper(self, post_id: int) -> HttpResponse:
         try:
             response_dto = self.get_post(post_id)
             return self.presenter.success_get_post_response(response_dto)
@@ -47,29 +47,28 @@ class GetPostInteractor:
         for comments_on_post_dto in comments_on_post_dtos:
             comment_ids.append(comments_on_post_dto.comment_id)
 
-
         commenter_ids_list = []
         for comments_on_post_dto in comments_on_post_dtos:
             commenter_ids_list.append(comments_on_post_dto.commented_by_id)
+
+        user_ids = commenter_ids_list
+        user_ids.append(post_dto.posted_by_id)
 
         replies_dtos = self.comment_storage.get_reply_dto(comment_ids)
 
         for replies_dto in replies_dtos:
             comment_ids.append(replies_dto.comment_id)
-            commenter_ids_list.append(
+            user_ids.append(
                 replies_dto.commented_by_id)
 
         user_dtos = self.user_storage.get_user_details(
-            user_id=post_dto.posted_by_id,
-            commenter_details_list=commenter_ids_list
-        )
-        for user_dto in user_dtos:
-            print("*************")
-            print(user_dto.user_id)
+            user_ids=user_ids)
 
-        reactions_dtos = self.reaction_storage.get_reactions(post_id=post_id,
-                                                             comment_ids=comment_ids)
-
+        reaction_on_post_dto = self.reaction_storage.get_reactions_on_post(
+            post_id=post_id)
+        reactions_dtos = self.reaction_storage.get_reactions_on_comments(
+            comment_ids=comment_ids)
+        reactions_dtos.extend(reaction_on_post_dto)
         response_dto = ResponseDto(
             post_dto=post_dto,
             user_dtos=user_dtos,
