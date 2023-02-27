@@ -35,10 +35,3 @@ class PostDto:
     content: str
 
 
-@dataclass()
-class ResponseDto:
-    post_dto: PostDto
-    user_dtos: List[UserDto]
-    comment_dtos: List[CommentDto]
-    reply_dtos: List[CommentDto]
-    reactions_dtos: List[ReactionDto]

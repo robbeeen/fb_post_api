@@ -28,8 +28,7 @@ def api_wrapper(*args, **kwargs):
         user_storage=user_storage,
         comment_storage=comment_storage,
         reaction_storage=reaction_storage,
-        presenter=presenter,
-        post_id=post_id
+        presenter=presenter
     )
 
     response = interactor.get_post_wrapper(post_id=post_id)

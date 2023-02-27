@@ -11,7 +11,7 @@ class ReactionStorageImplementation(ReactionStorageInterface):
         reactions = Reaction.objects.filter(
             post_id=post_id)
         reaction_post_dtos = [
-            self._prepare_reaction_post_dto(reaction)
+            self._prepare_reaction_dto_using_reaction_object(reaction)
             for reaction in reactions
         ]
         return reaction_post_dtos
@@ -21,14 +21,14 @@ class ReactionStorageImplementation(ReactionStorageInterface):
         reactions = Reaction.objects.filter(
             comment_id__in=comment_ids)
         reaction_post_dtos = [
-            self._prepare_reaction_post_dto(reaction)
+            self._prepare_reaction_dto_using_reaction_object(reaction)
             for reaction in reactions
         ]
 
         return reaction_post_dtos
 
     @staticmethod
-    def _prepare_reaction_post_dto(reaction: Reaction) -> ReactionDto:
+    def _prepare_reaction_dto_using_reaction_object(reaction: Reaction) -> ReactionDto:
         return ReactionDto(
             post_id=reaction.post_id,
             comment_id=reaction.comment_id,

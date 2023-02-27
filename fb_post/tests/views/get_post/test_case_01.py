@@ -6,11 +6,10 @@ import json
 import pytest
 from django_swagger_utils.utils.test_utils import TestUtils
 
-from fb_post.interactors.storage_interfaces.dtos import ReactionDto
-from fb_post.models.post import Post
 from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
 from ...factories.models import PostFactory, UserFactory, CommentFactory, \
-    ReactionFactory, ReactionDtoFactory
+    ReactionFactory
+
 
 
 class TestCase01GetPostAPITestCase(TestUtils):

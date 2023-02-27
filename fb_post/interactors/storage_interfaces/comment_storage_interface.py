@@ -11,6 +11,6 @@ class CommentStorageInterface(ABC):
         pass
 
     @abstractmethod
-    def get_reply_dto(self, parent_comment_ids: List[int]) -> List[CommentDto]:
+    def get_replies_dtos(self, parent_comment_ids: List[int]) -> List[CommentDto]:
         pass
 

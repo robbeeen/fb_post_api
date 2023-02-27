@@ -18,7 +18,7 @@ class CommentStorageImplementation(CommentStorageInterface):
         ]
         return comments_dtos
 
-    def get_reply_dto(self, parent_comment_ids: List[int]) -> List[CommentDto]:
+    def get_replies_dtos(self, parent_comment_ids: List[int]) -> List[CommentDto]:
         replies = Comment.objects.filter(
             parent_comment_id__in=parent_comment_ids)
         replies_post_dtos = [

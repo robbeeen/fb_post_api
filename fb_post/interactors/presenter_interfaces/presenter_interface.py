@@ -3,7 +3,7 @@ from abc import abstractmethod
 
 from django.http import HttpResponse
 
-from fb_post.interactors.storage_interfaces.dtos import ResponseDto
+from fb_post.interactors.presenter_interfaces.dtos import GetPostResponseDto
 
 
 class PresenterInterface(ABC):
@@ -17,10 +17,10 @@ class PresenterInterface(ABC):
         pass
 
     @abstractmethod
-    def success_get_post_response(self,
-                                  response_dto: ResponseDto) -> HttpResponse:
+    def get_success_get_post_response(self,
+                                      response_dto: GetPostResponseDto) -> HttpResponse:
         pass
 
     @abstractmethod
-    def failed_get_post_response(self) -> HttpResponse:
+    def get_invalid_get_post_response(self) -> HttpResponse:
         pass

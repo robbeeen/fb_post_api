@@ -5,7 +5,8 @@ import pytest
 from fb_post.storages.comment_storage_implementation import \
     CommentStorageImplementation
 from fb_post.tests.factories.models import UserFactory, CommentFactory, \
-    PostFactory, CommentDtoFactory
+    PostFactory
+from fb_post.tests.factories.storage_dtos import CommentDtoFactory
 
 
 @pytest.mark.django_db
@@ -43,7 +44,7 @@ class TestCommentStorageImplementation(unittest.TestCase):
         ]
 
         # Act
-        actual_comment_dtos = comment_storage.get_reply_dto(
+        actual_comment_dtos = comment_storage.get_replies_dtos(
             parent_comment_ids=[1])
 
         # Assert

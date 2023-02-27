@@ -14,8 +14,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post response_content'] 
             'comment_id': 1,
             'commented_at': '2023-02-01 15:06:00',
             'commenter': {
-                'name': 'user 0',
-                'profile_pic': 'user 0@url',
+                'name': ' user_1',
+                'profile_pic': '  user_1@url',
                 'user_id': 1
             },
             'reactions': {
@@ -46,8 +46,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post response_content'] 
     'post_id': 1,
     'posted_at': '2023-02-01 15:06:00',
     'posted_by': {
-        'name': 'user 0',
-        'profile_pic': 'user 0@url',
+        'name': ' user_1',
+        'profile_pic': '  user_1@url',
         'user_id': 1
     },
     'reactions': {
@@ -68,8 +68,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post_only response_conte
     'post_id': 1,
     'posted_at': '2023-02-01 15:06:00',
     'posted_by': {
-        'name': 'user 0',
-        'profile_pic': 'user 0@url',
+        'name': ' user_1',
+        'profile_pic': '  user_1@url',
         'user_id': 1
     },
     'reactions': {
@@ -88,8 +88,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post_and_comment_only re
             'comment_id': 1,
             'commented_at': '2023-02-01 15:06:00',
             'commenter': {
-                'name': 'user 0',
-                'profile_pic': 'user 0@url',
+                'name': ' user_1',
+                'profile_pic': '  user_1@url',
                 'user_id': 1
             },
             'reactions': {
@@ -107,8 +107,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post_and_comment_only re
     'post_id': 1,
     'posted_at': '2023-02-01 15:06:00',
     'posted_by': {
-        'name': 'user 0',
-        'profile_pic': 'user 0@url',
+        'name': ' user_1',
+        'profile_pic': '  user_1@url',
         'user_id': 1
     },
     'reactions': {
@@ -127,8 +127,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post_comment_replies_onl
             'comment_id': 1,
             'commented_at': '2023-02-01 15:06:00',
             'commenter': {
-                'name': 'user 0',
-                'profile_pic': 'user 0@url',
+                'name': ' user_1',
+                'profile_pic': '  user_1@url',
                 'user_id': 1
             },
             'reactions': {
@@ -157,8 +157,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post_comment_replies_onl
     'post_id': 1,
     'posted_at': '2023-02-01 15:06:00',
     'posted_by': {
-        'name': 'user 0',
-        'profile_pic': 'user 0@url',
+        'name': ' user_1',
+        'profile_pic': '  user_1@url',
         'user_id': 1
     },
     'reactions': {
@@ -177,8 +177,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post_comment_reactions_o
             'comment_id': 1,
             'commented_at': '2023-02-01 15:06:00',
             'commenter': {
-                'name': 'user 0',
-                'profile_pic': 'user 0@url',
+                'name': ' user_1',
+                'profile_pic': '  user_1@url',
                 'user_id': 1
             },
             'reactions': {
@@ -197,8 +197,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post_comment_reactions_o
     'post_id': 1,
     'posted_at': '2023-02-01 15:06:00',
     'posted_by': {
-        'name': 'user 0',
-        'profile_pic': 'user 0@url',
+        'name': ' user_1',
+        'profile_pic': '  user_1@url',
         'user_id': 1
     },
     'reactions': {
@@ -219,8 +219,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post_reactions_only resp
     'post_id': 1,
     'posted_at': '2023-02-01 15:06:00',
     'posted_by': {
-        'name': 'user 0',
-        'profile_pic': 'user 0@url',
+        'name': ' user_1',
+        'profile_pic': '  user_1@url',
         'user_id': 1
     },
     'reactions': {
@@ -240,8 +240,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_comment_reactions_only r
             'comment_id': 1,
             'commented_at': '2023-02-01 15:06:00',
             'commenter': {
-                'name': 'user 0',
-                'profile_pic': 'user 0@url',
+                'name': ' user_1',
+                'profile_pic': '  user_1@url',
                 'user_id': 1
             },
             'reactions': {
@@ -260,8 +260,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_comment_reactions_only r
     'post_id': 1,
     'posted_at': '2023-02-01 15:06:00',
     'posted_by': {
-        'name': 'user 0',
-        'profile_pic': 'user 0@url',
+        'name': ' user_1',
+        'profile_pic': '  user_1@url',
         'user_id': 1
     },
     'reactions': {
