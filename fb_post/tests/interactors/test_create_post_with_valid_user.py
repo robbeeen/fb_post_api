@@ -7,7 +7,7 @@ from fb_post.interactors.storage_interfaces.post_storage_interface import \
     PostStorageInterface
 from fb_post.interactors.storage_interfaces.user_storage_interface import \
     UserStorageInterface
-from fb_post.interactors.presenter_interfaces.presenter_interface import \
+from fb_post.interactors.presenter_interfaces.presenter_interface_create_post import \
     PresenterInterface
 from fb_post.tests.factories.models import PostFactory
 

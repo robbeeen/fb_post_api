@@ -6,7 +6,7 @@ from fb_post.storages.post_storage_implementation import \
     PostStorageImplementation
 from fb_post.storages.user_storage_implementation import \
     UserStorageImplementation
-from fb_post.presenters.presenter_implementation import PresenterImplementation
+from fb_post.presenters.get_post_presenter_implementation import PresenterImplementationGetPost
 from fb_post.interactors.create_post_interactor import CreatePostInteractor
 
 
@@ -18,7 +18,7 @@ def api_wrapper(*args, **kwargs) -> int:
 
     user_storage = UserStorageImplementation()
     post_storage = PostStorageImplementation()
-    presenter = PresenterImplementation()
+    presenter = PresenterImplementationGetPost()
 
     interactor = CreatePostInteractor(user_storage=user_storage,
                                       post_storage=post_storage,

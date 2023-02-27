@@ -17,7 +17,7 @@ class TestCase02CreatePostAPITestCase(TestUtils):
 
     @pytest.mark.django_db
     def test_case(self, snapshot):
-        body = {'content': 'string', 'posted_by': 0}
+        body = {'content': 'string', 'posted_by': 10}
         path_params = {}
         query_params = {}
         headers = {}
