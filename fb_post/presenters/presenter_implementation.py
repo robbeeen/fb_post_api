@@ -1,4 +1,5 @@
 import json
+from collections import defaultdict
 from typing import List, Any, Dict
 
 from django.http import HttpResponse
@@ -8,7 +9,7 @@ from fb_post.interactors.presenter_interfaces.presenter_interface import \
     PresenterInterface
 from fb_post.constants.exception_messages import INVALID_USER_ID, \
     INVALID_POST_ID
-from fb_post.interactors.storage_interfaces.dtos import UserDto, PostDto, \
+from fb_post.interactors.storage_interfaces.dtos import UserDto, \
     ReactionDto, CommentDto
 
 
@@ -49,24 +50,16 @@ class PresenterImplementation(PresenterInterface):
         reactions_on_post_dtos = response_dto.reactions_on_post_dtos
         reactions_on_comments_dtos = response_dto.reactions_on_comments_dtos
 
-        comment_reply_dict = dict()
-        for comments_on_post_dto in comments_on_post_dtos:
-            list_of_replies = []
-            for replies_dto in replies_dtos:
-                if comments_on_post_dto.comment_id == replies_dto.parent_comment_id:
-                    list_of_replies.append(replies_dto)
-            comment_reply_dict[
-                comments_on_post_dto.comment_id] = list_of_replies
-
-        comment_reaction_dict = dict()
-
-        for comments_on_post_dto in comments_on_post_dtos:
-            list_of_reactions = []
-            for reactions_on_comments_dto in reactions_on_comments_dtos:
-                if comments_on_post_dto.comment_id == reactions_on_comments_dto.comment_id:
-                    list_of_reactions.append(reactions_on_comments_dto)
+        comment_reaction_dict = defaultdict(list)
+        for reactions_on_comments_dto in reactions_on_comments_dtos:
             comment_reaction_dict[
-                comments_on_post_dto.comment_id] = list_of_reactions
+                reactions_on_comments_dto.comment_id].append(
+                reactions_on_comments_dto)
+
+        reply_comment_dict = defaultdict(list)
+        for replies_dto in replies_dtos:
+            reply_comment_dict[replies_dto.parent_comment_id].append(
+                replies_dto)
 
         response = {
             "post_id": post_dto.post_id,
@@ -76,7 +69,7 @@ class PresenterImplementation(PresenterInterface):
             "reactions": self._get_reaction_on_post(reactions_on_post_dtos),
             "comments": self._get_comments(self, comments_on_post_dtos,
                                            user_dtos,
-                                           comment_reply_dict,
+                                           reply_comment_dict,
                                            comment_reaction_dict),
             "comments_count": len(comments_on_post_dtos)
         }
@@ -90,7 +83,7 @@ class PresenterImplementation(PresenterInterface):
         for reactions_dto in reactions_dtos:
             list_of_reactions.append(reactions_dto.type)
 
-        return {"count": len(list_of_reactions),
+        return {"count": len(set(list_of_reactions)),
                 "type": list(set(list_of_reactions))
                 }
 
@@ -127,7 +120,7 @@ class PresenterImplementation(PresenterInterface):
             list_of_type.append(reaction_dto.type)
 
         return {
-            "count": len(reactions_dtos_list),
+            "count": len(set(list_of_type)),
             "type": list(set(list_of_type))
         }
 
@@ -137,13 +130,13 @@ class PresenterImplementation(PresenterInterface):
                      comment_reaction_dict: Dict[int, List[ReactionDto]]) -> \
             List[
                 Dict[str, Any]]:
+
         list_of_replies = []
         for reply_on_comment_dto in comment_reply_dto_list:
             reply_dict = dict()
             reply_dict['comment_id'] = reply_on_comment_dto.comment_id
             reply_dict['commenter'] = self._get_reply_commenter(
-                reply_on_comment_dto.commented_by_id,
-                user_dtos)
+                reply_on_comment_dto.commented_by_id, user_dtos)
             reply_dict['commented_at'] = reply_on_comment_dto.commented_at
             reply_dict[
                 'comment_content'] = reply_on_comment_dto.comment_content
@@ -157,14 +150,14 @@ class PresenterImplementation(PresenterInterface):
                     "type": []
                 }
 
-                list_of_replies.append(reply_dict)
+            list_of_replies.append(reply_dict)
 
         return list_of_replies
 
     @staticmethod
     def _get_comments(self, comments_on_post_dtos: List[CommentDto],
                       user_dtos: List[UserDto],
-                      comment_reply_dict: Dict[int, List[CommentDto]],
+                      reply_comment_dict: Dict[int, List[CommentDto]],
                       comment_reaction_dict: Dict[int, List[ReactionDto]]) -> \
             List[Dict[str, Any]]:
         list_of_comments = []
@@ -179,22 +172,37 @@ class PresenterImplementation(PresenterInterface):
                 'commented_at'] = comments_on_post_dto.commented_at
             comment_dict[
                 'comment_content'] = comments_on_post_dto.comment_content
-            comment_dict['reactions'] = self._get_reaction_on_comment(
-                comment_reaction_dict[comments_on_post_dto.comment_id]
-            )
 
-            comment_dict['replies_count'] = len(
-                comment_reply_dict[comments_on_post_dto.comment_id])
-            comment_dict['replies'] = self._get_replies(self, user_dtos,
-                                                        comment_reply_dict[
-                                                            comments_on_post_dto.comment_id],
-                                                        comment_reaction_dict)
+            if comment_reaction_dict.get(
+                    comments_on_post_dto.comment_id) is not None:
+
+                comment_dict['reactions'] = self._get_reaction_on_comment(
+                    comment_reaction_dict[comments_on_post_dto.comment_id])
+            else:
+                comment_dict['reactions'] = {
+                    "count": 0,
+                    "type": []
+                }
+
+            if reply_comment_dict.get(
+                    comments_on_post_dto.comment_id) is not None:
+
+                comment_dict['replies_count'] = len(
+                    reply_comment_dict[comments_on_post_dto.comment_id])
+                comment_dict['replies'] = self._get_replies(self, user_dtos,
+                                                            reply_comment_dict[
+                                                                comments_on_post_dto.comment_id],
+                                                            comment_reaction_dict)
+            else:
+                comment_dict['replies_count'] = 0
+                comment_dict['replies'] = []
+
             list_of_comments.append(comment_dict)
         return list_of_comments
 
     @staticmethod
     def _get_user(user_dtos: List[UserDto], posted_by_id: int) -> Dict[
-                str, Any]:
+        str, Any]:
         for user_dto in user_dtos:
             if user_dto.user_id == posted_by_id:
                 return {

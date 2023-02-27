@@ -16,8 +16,8 @@ snapshots['TestCase01GetPostAPITestCase.test_case body'] = {
             'comment_id': 1,
             'commented_at': '2023-02-01 15:06:00',
             'commenter': {
-                'name': ' user_0',
-                'profile_pic': ' content  user_0',
+                'name': ' user_1',
+                'profile_pic': '  user_1@url',
                 'user_id': 1
             },
             'reactions': {
@@ -32,8 +32,8 @@ snapshots['TestCase01GetPostAPITestCase.test_case body'] = {
                     'comment_id': 2,
                     'commented_at': '2023-02-01 15:06:00',
                     'commenter': {
-                        'name': ' user_1',
-                        'profile_pic': ' content  user_1',
+                        'name': ' user_2',
+                        'profile_pic': '  user_2@url',
                         'user_id': 2
                     },
                     'reactions': {
@@ -51,8 +51,8 @@ snapshots['TestCase01GetPostAPITestCase.test_case body'] = {
     'post_id': 1,
     'posted_at': '2023-02-01 15:06:00',
     'posted_by': {
-        'name': ' user_0',
-        'profile_pic': ' content  user_0',
+        'name': ' user_1',
+        'profile_pic': '  user_1@url',
         'user_id': 1
     },
     'reactions': {
