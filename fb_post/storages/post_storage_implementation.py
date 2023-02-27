@@ -17,18 +17,17 @@ class PostStorageImplementation(PostStorageInterface):
         return Post.objects.filter(id=post_id).exists()
 
     def get_post_details(self, post_id: int) -> PostDto:
-
-        is_post_not_exists = not self.is_post_exists(post_id)
-        if is_post_not_exists:
-            raise InvalidPostException
-        else:
+        try:
             post = Post.objects.get(id=post_id)
-            post_dto = PostDto(
-                post_id=post.id,
-                posted_at=post.posted_at,
-                posted_by_id=post.posted_by_id,
-                content=post.content
-            )
-            return post_dto
+        except Post.DoesNotExist:
+            raise InvalidPostException
+
+        post_dto = PostDto(
+            post_id=post.id,
+            posted_at=post.posted_at,
+            posted_by_id=post.posted_by_id,
+            content=post.content
+        )
+        return post_dto
 
 

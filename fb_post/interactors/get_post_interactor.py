@@ -34,7 +34,6 @@ class GetPostInteractor:
             return self.presenter.get_invalid_get_post_response()
 
     def get_post(self, post_id: int) -> GetPostResponseDto:
-        self._validate_post_id(post_id)
         post_dto = self.post_storage.get_post_details(post_id=post_id)
         comments_on_post_dtos = self.comment_storage.get_comments_on_post(
             post_dto.post_id)
@@ -52,11 +51,9 @@ class GetPostInteractor:
 
         for replies_dto in replies_dtos:
             comment_ids.append(replies_dto.comment_id)
-            user_ids.append(
-                replies_dto.commented_by_id)
+            user_ids.append(replies_dto.commented_by_id)
 
-        user_dtos = self.user_storage.get_users_dtos(
-            user_ids=user_ids)
+        user_dtos = self.user_storage.get_users_dtos(user_ids=user_ids)
 
         reactions_on_post_dtos = self.reaction_storage.get_reactions_on_post(
             post_id=post_id)
@@ -74,7 +71,3 @@ class GetPostInteractor:
 
         return response_dto
 
-    def _validate_post_id(self, post_id: int) -> None:
-        is_post_not_exists = not self.post_storage.is_post_exists(post_id)
-        if is_post_not_exists:
-            raise InvalidPostException

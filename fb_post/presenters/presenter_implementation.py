@@ -41,8 +41,8 @@ class PresenterImplementation(PresenterInterface):
         return HttpResponse(content=json.dumps(response_dict),
                             status=response_dict["http_status_code"])
 
-    def get_success_get_post_response(self,
-                                      response_dto: GetPostResponseDto) -> HttpResponse:
+    def get_success_get_post_response(
+            self, response_dto: GetPostResponseDto) -> HttpResponse:
         post_dto = response_dto.post_dto
         user_dtos = response_dto.user_dtos
         comments_on_post_dtos = response_dto.comment_dtos
@@ -67,10 +67,9 @@ class PresenterImplementation(PresenterInterface):
             "posted_at": post_dto.posted_at,
             "post_content": post_dto.content,
             "reactions": self._get_reaction_on_post(reactions_on_post_dtos),
-            "comments": self._get_comments(self, comments_on_post_dtos,
-                                           user_dtos,
-                                           reply_comment_dict,
-                                           comment_reaction_dict),
+            "comments": self._get_comments(
+                comments_on_post_dtos, user_dtos,
+                reply_comment_dict, comment_reaction_dict),
             "comments_count": len(comments_on_post_dtos)
         }
         return HttpResponse(content=json.dumps(response, default=str),
@@ -79,13 +78,14 @@ class PresenterImplementation(PresenterInterface):
     @staticmethod
     def _get_reaction_on_post(reactions_dtos: List[ReactionDto]) -> \
             Dict[str, Any]:
-        list_of_reactions = []
-        for reactions_dto in reactions_dtos:
-            list_of_reactions.append(reactions_dto.type)
+        list_of_reactions = {
+            reactions_dto.type for reactions_dto in reactions_dtos
+        }
 
-        return {"count": len(set(list_of_reactions)),
-                "type": list(set(list_of_reactions))
-                }
+        return {
+            "count": len(list_of_reactions),
+            "type": list(list_of_reactions)
+        }
 
     @staticmethod
     def _get_commenter(user_id: int,
@@ -124,7 +124,6 @@ class PresenterImplementation(PresenterInterface):
             "type": list(set(list_of_type))
         }
 
-    @staticmethod
     def _get_replies(self, user_dtos: List[UserDto],
                      comment_reply_dto_list: List[CommentDto],
                      comment_reaction_dict: Dict[int, List[ReactionDto]]) -> \
@@ -133,28 +132,21 @@ class PresenterImplementation(PresenterInterface):
 
         list_of_replies = []
         for reply_on_comment_dto in comment_reply_dto_list:
-            reply_dict = dict()
-            reply_dict['comment_id'] = reply_on_comment_dto.comment_id
-            reply_dict['commenter'] = self._get_reply_commenter(
-                reply_on_comment_dto.commented_by_id, user_dtos)
-            reply_dict['commented_at'] = reply_on_comment_dto.commented_at
-            reply_dict[
-                'comment_content'] = reply_on_comment_dto.comment_content
-            if comment_reaction_dict.get(
-                    reply_on_comment_dto.comment_id) is not None:
-                reply_dict['reactions'] = self._get_reaction_on_comment(
-                    comment_reaction_dict[reply_on_comment_dto.comment_id])
-            else:
-                reply_dict['reactions'] = {
-                    "count": 0,
-                    "type": []
-                }
+            reply_dict = {
+                'comment_id': reply_on_comment_dto.comment_id,
+                'commenter': self._get_reply_commenter(
+                    reply_on_comment_dto.commented_by_id, user_dtos),
+                'commented_at': reply_on_comment_dto.commented_at,
+                'comment_content': reply_on_comment_dto.comment_content,
+                'reactions': self._get_reaction_on_comment(
+                    comment_reaction_dict[
+                        reply_on_comment_dto.comment_id])
+            }
 
             list_of_replies.append(reply_dict)
 
         return list_of_replies
 
-    @staticmethod
     def _get_comments(self, comments_on_post_dtos: List[CommentDto],
                       user_dtos: List[UserDto],
                       reply_comment_dict: Dict[int, List[CommentDto]],
@@ -162,47 +154,36 @@ class PresenterImplementation(PresenterInterface):
             List[Dict[str, Any]]:
         list_of_comments = []
 
+        user_id_wise_user_dto = {
+            user_dto.user_id: user_dto
+            for user_dto in user_dtos
+        }
         for comments_on_post_dto in comments_on_post_dtos:
-            comment_dict = dict()
-            comment_dict['comment_id'] = comments_on_post_dto.comment_id
-            comment_dict['commenter'] = self._get_commenter(
-                comments_on_post_dto.commented_by_id,
-                user_dtos)
-            comment_dict[
-                'commented_at'] = comments_on_post_dto.commented_at
-            comment_dict[
-                'comment_content'] = comments_on_post_dto.comment_content
-
-            if comment_reaction_dict.get(
-                    comments_on_post_dto.comment_id) is not None:
-
-                comment_dict['reactions'] = self._get_reaction_on_comment(
-                    comment_reaction_dict[comments_on_post_dto.comment_id])
-            else:
-                comment_dict['reactions'] = {
-                    "count": 0,
-                    "type": []
-                }
-
-            if reply_comment_dict.get(
-                    comments_on_post_dto.comment_id) is not None:
-
-                comment_dict['replies_count'] = len(
-                    reply_comment_dict[comments_on_post_dto.comment_id])
-                comment_dict['replies'] = self._get_replies(self, user_dtos,
-                                                            reply_comment_dict[
-                                                                comments_on_post_dto.comment_id],
-                                                            comment_reaction_dict)
-            else:
-                comment_dict['replies_count'] = 0
-                comment_dict['replies'] = []
+            comment_dict = {
+                'comment_id': comments_on_post_dto.comment_id,
+                'commenter': user_id_wise_user_dto[
+                    comments_on_post_dto.commented_by_id],
+                'commented_at': comments_on_post_dto.commented_at,
+                'comment_content': comments_on_post_dto.comment_content,
+                'reactions': self._get_reaction_on_comment(
+                    comment_reaction_dict[
+                        comments_on_post_dto.comment_id]),
+                'replies_count': len(
+                    reply_comment_dict[
+                        comments_on_post_dto.comment_id]),
+                'replies': self._get_replies(
+                    user_dtos,
+                    reply_comment_dict[comments_on_post_dto.comment_id],
+                    comment_reaction_dict)
+            }
 
             list_of_comments.append(comment_dict)
+
         return list_of_comments
 
     @staticmethod
-    def _get_user(user_dtos: List[UserDto], posted_by_id: int) -> Dict[
-        str, Any]:
+    def _get_user(user_dtos: List[UserDto], posted_by_id: int) -> \
+            Dict[str, Any]:
         for user_dto in user_dtos:
             if user_dto.user_id == posted_by_id:
                 return {
