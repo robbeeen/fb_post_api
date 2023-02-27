@@ -12,7 +12,7 @@ from fb_post.tests.factories.storage_dtos import UserDtoFactory
 
 
 @pytest.mark.django_db
-class TestGetPostUserDetails(unittest.TestCase):
+class TestGetPostUser(unittest.TestCase):
     def test_get_users_dtos(self):
         # Arrange
         UserFactory()

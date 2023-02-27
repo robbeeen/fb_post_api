@@ -5,7 +5,7 @@ from django_swagger_utils.drf_server.utils.decorator.interface_decorator \
     import validate_decorator
 from .validator_class import ValidatorClass
 from ...interactors.get_post_interactor import GetPostInteractor
-from ...presenters.presenter_implementation import PresenterImplementation
+from ...presenters.get_post_presenter_implementation import PresenterImplementationGetPost
 from ...storages.comment_storage_implementation import \
     CommentStorageImplementation
 from ...storages.post_storage_implementation import PostStorageImplementation
@@ -22,7 +22,7 @@ def api_wrapper(*args, **kwargs):
     user_storage = UserStorageImplementation()
     comment_storage = CommentStorageImplementation()
     reaction_storage = ReactionStorageImplementation()
-    presenter = PresenterImplementation()
+    presenter = PresenterImplementationGetPost()
     interactor = GetPostInteractor(
         post_storage=post_storage,
         user_storage=user_storage,

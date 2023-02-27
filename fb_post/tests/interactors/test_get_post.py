@@ -7,7 +7,7 @@ import snapshottest
 
 from fb_post.interactors.get_post_interactor import GetPostInteractor
 from fb_post.interactors.presenter_interfaces.dtos import GetPostResponseDto
-from fb_post.interactors.presenter_interfaces.presenter_interface import \
+from fb_post.interactors.presenter_interfaces.presenter_interface_create_post import \
     PresenterInterface
 from fb_post.interactors.storage_interfaces.comment_storage_interface import \
     CommentStorageInterface

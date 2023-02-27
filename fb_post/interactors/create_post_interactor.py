@@ -2,7 +2,7 @@ from fb_post.interactors.storage_interfaces.post_storage_interface import \
     PostStorageInterface
 from fb_post.interactors.storage_interfaces.user_storage_interface import \
     UserStorageInterface
-from fb_post.interactors.presenter_interfaces.presenter_interface import \
+from fb_post.interactors.presenter_interfaces.presenter_interface_create_post import \
     PresenterInterface
 from typing import Any
 from fb_post.exceptions.custom_exceptions import InvalidUserException

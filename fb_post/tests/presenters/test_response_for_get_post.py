@@ -2,7 +2,7 @@ import json
 import pytest
 
 from fb_post.interactors.presenter_interfaces.dtos import GetPostResponseDto
-from fb_post.presenters.presenter_implementation import PresenterImplementation
+from fb_post.presenters.get_post_presenter_implementation import PresenterImplementationGetPost
 from fb_post.tests.factories.storage_dtos import PostDtoFactory, \
     CommentDtoFactory, UserDtoFactory, ReactionDtoFactory
 
@@ -12,7 +12,7 @@ class TestPresenterGetPost:
 
     def test_response_for_invalid_post(self):
         # Arrange
-        presenter = PresenterImplementation()
+        presenter = PresenterImplementationGetPost()
 
         expected_response = {
             "response": "Post Not Found",
@@ -42,7 +42,7 @@ class TestPresenterGetPost:
                 ReactionDtoFactory(post_id=None, type="WOW", comment_id=1)
                 ]
         )
-        presenter = PresenterImplementation()
+        presenter = PresenterImplementationGetPost()
 
         # Act
         response = presenter.get_success_get_post_response(response_dto)
@@ -62,7 +62,7 @@ class TestPresenterGetPost:
             reactions_on_post_dtos=[],
             reactions_on_comments_dtos=[]
         )
-        presenter = PresenterImplementation()
+        presenter = PresenterImplementationGetPost()
 
         # Act
         response = presenter.get_success_get_post_response(response_dto)
@@ -81,7 +81,7 @@ class TestPresenterGetPost:
             reactions_on_post_dtos=[],
             reactions_on_comments_dtos=[]
         )
-        presenter = PresenterImplementation()
+        presenter = PresenterImplementationGetPost()
 
         # Act
         response = presenter.get_success_get_post_response(response_dto)
@@ -102,7 +102,7 @@ class TestPresenterGetPost:
             reactions_on_post_dtos=[],
             reactions_on_comments_dtos=[]
         )
-        presenter = PresenterImplementation()
+        presenter = PresenterImplementationGetPost()
 
         # Act
         response = presenter.get_success_get_post_response(response_dto)
@@ -125,7 +125,7 @@ class TestPresenterGetPost:
                 ReactionDtoFactory(post_id=None, type="LIT", comment_id=1)]
 
         )
-        presenter = PresenterImplementation()
+        presenter = PresenterImplementationGetPost()
 
         # Act
         response = presenter.get_success_get_post_response(response_dto)
@@ -146,7 +146,7 @@ class TestPresenterGetPost:
                 ReactionDtoFactory(post_id=1, type="WOW", comment_id=None)],
             reactions_on_comments_dtos=[])
 
-        presenter = PresenterImplementation()
+        presenter = PresenterImplementationGetPost()
 
         # Act
         response = presenter.get_success_get_post_response(response_dto)
@@ -166,7 +166,7 @@ class TestPresenterGetPost:
             reactions_on_comments_dtos=[
                 ReactionDtoFactory(post_id=None, type="LIT", comment_id=1)])
 
-        presenter = PresenterImplementation()
+        presenter = PresenterImplementationGetPost()
 
         # Act
         response = presenter.get_success_get_post_response(response_dto)

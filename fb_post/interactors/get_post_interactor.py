@@ -2,8 +2,8 @@ from django.http import HttpResponse
 
 from fb_post.exceptions.custom_exceptions import InvalidPostException
 from fb_post.interactors.presenter_interfaces.dtos import GetPostResponseDto
-from fb_post.interactors.presenter_interfaces.presenter_interface import \
-    PresenterInterface
+from fb_post.interactors.presenter_interfaces.presenter_interface_get_post import \
+    PresenterInterfaceGetPost
 from fb_post.interactors.storage_interfaces.comment_storage_interface import \
     CommentStorageInterface
 from fb_post.interactors.storage_interfaces.post_storage_interface import \
@@ -19,7 +19,7 @@ class GetPostInteractor:
                  post_storage: PostStorageInterface,
                  comment_storage: CommentStorageInterface,
                  reaction_storage: ReactionStorageInterface,
-                 presenter: PresenterInterface):
+                 presenter: PresenterInterfaceGetPost):
         self.user_storage = user_storage
         self.post_storage = post_storage
         self.comment_storage = comment_storage
