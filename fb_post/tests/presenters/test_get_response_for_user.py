@@ -1,6 +1,6 @@
 import json
 
-from fb_post.presenters.get_post_presenter_implementation import PresenterImplementationGetPost
+from fb_post.presenters.create_post_presenter_implementation import PresenterImplementationCreatePost
 
 
 class TestPresenterCreatePost:
@@ -11,7 +11,7 @@ class TestPresenterCreatePost:
             "post_id": post_id
         }
 
-        presenter = PresenterImplementationGetPost()
+        presenter = PresenterImplementationCreatePost()
 
         # Act
         response = presenter.get_success_post_response(post_id)
@@ -21,7 +21,7 @@ class TestPresenterCreatePost:
 
     def test_response_for_invalid_user(self, snapshot):
         # Arrange
-        presenter = PresenterImplementationGetPost()
+        presenter = PresenterImplementationCreatePost()
 
         # Act
         response = presenter.get_invalid_user_response()

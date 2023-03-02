@@ -1,23 +1,8 @@
 import datetime
 import factory
-import typing
-from fb_post.constants.enums import ReactionENUM
-
-from fb_post.interactors.storage_interfaces.dtos import PostDto, CommentDto, \
-    UserDto, ReactionDto
 from fb_post.models.comment import Comment
 from fb_post.models.reaction import Reaction
-from fb_post.models.user import User
 from fb_post.models.post import Post
-
-
-class UserFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = User
-
-    id = factory.sequence(lambda n: n + 1)
-    name = factory.Sequence(lambda n: f" user_{n+1}")
-    profile_pic = factory.LazyAttribute(lambda o: f" {o.name}@url")
 
 
 class PostFactory(factory.django.DjangoModelFactory):

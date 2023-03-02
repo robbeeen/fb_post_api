@@ -1,5 +1,4 @@
 from django.db import models
-from .user import User
 from datetime import datetime
 from .comment import Comment
 from .post import Post
@@ -12,4 +11,4 @@ class Reaction(models.Model):
                                 blank=True)
     reaction = models.CharField(max_length=100)
     reacted_at = models.DateTimeField(default=datetime.now)
-    reacted_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    reacted_by_id = models.IntegerField(default=1)

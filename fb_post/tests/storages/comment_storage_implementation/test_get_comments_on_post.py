@@ -4,7 +4,7 @@ import pytest
 
 from fb_post.storages.comment_storage_implementation import \
     CommentStorageImplementation
-from fb_post.tests.factories.models import UserFactory, CommentFactory, \
+from fb_post.tests.factories.models import CommentFactory, \
     PostFactory
 from fb_post.tests.factories.storage_dtos import CommentDtoFactory
 
@@ -13,7 +13,6 @@ from fb_post.tests.factories.storage_dtos import CommentDtoFactory
 class TestCommentStorageImplementation(unittest.TestCase):
     def test_get_comments_on_post(self):
         # Arrange
-        UserFactory()
         PostFactory()
         CommentFactory()
         comment_storage = CommentStorageImplementation()
@@ -29,7 +28,6 @@ class TestCommentStorageImplementation(unittest.TestCase):
 
     def test_get_reply_dto(self):
         # Arrange
-        UserFactory.create_batch(size=3)
         PostFactory()
         CommentFactory(post_id=1)
         CommentFactory(post_id=None, parent_comment_id=1)

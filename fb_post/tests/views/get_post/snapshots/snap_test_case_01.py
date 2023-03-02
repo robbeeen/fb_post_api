@@ -32,9 +32,9 @@ snapshots['TestCase01GetPostAPITestCase.test_case body'] = {
                     'comment_id': 2,
                     'commented_at': '2023-02-01 15:06:00',
                     'commenter': {
-                        'name': ' user_2',
-                        'profile_pic': '  user_2@url',
-                        'user_id': 2
+                        'name': ' user_1',
+                        'profile_pic': '  user_1@url',
+                        'user_id': 1
                     },
                     'reactions': {
                         'count': 0,

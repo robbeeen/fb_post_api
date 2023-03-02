@@ -1,19 +1,15 @@
 from fb_post.interactors.storage_interfaces.post_storage_interface import \
     PostStorageInterface
-from fb_post.interactors.storage_interfaces.user_storage_interface import \
-    UserStorageInterface
 from fb_post.interactors.presenter_interfaces.presenter_interface_create_post import \
-    PresenterInterface
+    PresenterInterfaceCreatePost
 from typing import Any
 from fb_post.exceptions.custom_exceptions import InvalidUserException
 
 
 class CreatePostInteractor:
-    def __init__(self, user_storage: UserStorageInterface,
-                 post_storage: PostStorageInterface,
-                 presenter: PresenterInterface,
-                 post_content: str):
-        self.user_storage = user_storage
+    def __init__(self, post_storage: PostStorageInterface,
+                 presenter: PresenterInterfaceCreatePost, post_content: str):
+
         self.post_storage = post_storage
         self.presenter = presenter
         self.post_content = post_content
@@ -35,7 +31,7 @@ class CreatePostInteractor:
         return post_id
 
     def _validate_user_id(self, user_id: int) -> None:
-        is_user_not_exists = not self.user_storage.is_user_exists(
-            user_id=user_id)
-        if is_user_not_exists:
+        from fb_post.adapters.service_adapter import get_service_adapter
+        adapter = get_service_adapter()
+        if not adapter.fb_post_auth.is_user_exists(user_id):
             raise InvalidUserException

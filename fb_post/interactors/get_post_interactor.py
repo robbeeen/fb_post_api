@@ -10,17 +10,14 @@ from fb_post.interactors.storage_interfaces.post_storage_interface import \
     PostStorageInterface
 from fb_post.interactors.storage_interfaces.reaction_storage_interface import \
     ReactionStorageInterface
-from fb_post.interactors.storage_interfaces.user_storage_interface import \
-    UserStorageInterface
+from fb_post.adapters.service_adapter import get_service_adapter
 
 
 class GetPostInteractor:
-    def __init__(self, user_storage: UserStorageInterface,
-                 post_storage: PostStorageInterface,
+    def __init__(self, post_storage: PostStorageInterface,
                  comment_storage: CommentStorageInterface,
                  reaction_storage: ReactionStorageInterface,
                  presenter: PresenterInterfaceGetPost):
-        self.user_storage = user_storage
         self.post_storage = post_storage
         self.comment_storage = comment_storage
         self.reaction_storage = reaction_storage
@@ -54,10 +51,8 @@ class GetPostInteractor:
             comment_ids.append(replies_dto.comment_id)
             user_ids.append(
                 replies_dto.commented_by_id)
-
-        user_dtos = self.user_storage.get_users_dtos(
-            user_ids=user_ids)
-
+        adapter = get_service_adapter()
+        user_dtos = adapter.fb_post_auth.get_user_dtos(user_ids=user_ids)
         reactions_on_post_dtos = self.reaction_storage.get_reactions_on_post(
             post_id=post_id)
         reactions_on_comments_dtos = self.reaction_storage.get_reactions_on_comments(

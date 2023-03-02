@@ -91,198 +91,207 @@
           ]
         }
       }
-      },
-      "GetPostFailure": {
-        "type": "object",
-        "properties": {
-          "response": {
-            "type": "string"
-          },
-          "http_status_code": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "res_status": {
-            "type": "string",
-            "enum": [
-              "INVALID_POST_ID"
-            ]
-          }
+    },
+    "GetPostFailure": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "type": "string"
         },
-        "required": [
-          "response",
-          "http_status_code",
-          "res_status"
-        ]
+        "http_status_code": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "res_status": {
+          "type": "string",
+          "enum": [
+            "INVALID_POST_ID"
+          ]
+        }
       },
-      "UserDetails": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "user_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "profile_pic": {
+      "required": [
+        "response",
+        "http_status_code",
+        "res_status"
+      ]
+    },
+    "UserDetails": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "profile_pic": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "user_id",
+        "profile_pic"
+      ]
+    },
+    "ReactionsDetails": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "array",
+          "items": {
             "type": "string"
           }
-        },
-        "required": [
-          "name",
-          "user_id",
-          "profile_pic"
-        ]
+        }
       },
-      "ReactionsDetails": {
-        "type": "object",
-        "properties": {
-          "count": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "type": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
+      "required": [
+        "count",
+        "type"
+      ]
+    },
+    "CommentsDetails": {
+      "type": "object",
+      "properties": {
+        "comment_id": {
+          "type": "integer",
+          "format": "int64"
         },
-        "required": [
-          "count",
-          "type"
-        ]
-      },
-      "CommentsDetails": {
-        "type": "object",
-        "properties": {
-          "comment_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "commenter": {
-            "$ref": "#/definitions/UserDetails"
-          },
-          "commented_at": {
-            "type": "string"
-          },
-          "comment_content": {
-            "type": "string"
-          },
-          "reactions": {
-            "$ref": "#/definitions/ReactionsDetails"
-          }
+        "commenter": {
+          "$ref": "#/definitions/UserDetails"
         },
-        "required": [
-          "comment_id",
-          "commenter",
-          "commented_at",
-          "comment_content",
-          "reactions"
-        ]
+        "commented_at": {
+          "type": "string"
+        },
+        "comment_content": {
+          "type": "string"
+        },
+        "reactions": {
+          "$ref": "#/definitions/ReactionsDetails"
+        }
       },
+      "required": [
+        "comment_id",
+        "commenter",
+        "commented_at",
+        "comment_content",
+        "reactions"
+      ]
+    },
     "GetPostDetails": {
-
-        "type": "object",
-        "properties": {
-          "post_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "posted_by": {
-            "$ref": "#/definitions/UserDetails"
-          },
-          "posted_at": {
-            "type": "string"
-          },
-          "post_content": {
-            "type": "string"
-          },
-          "reactions": {
-            "$ref": "#/definitions/ReactionsDetails"
-          },
-          "comments": {
-            "type": "array",
-            "items": {
-
-              "allOf": [
-                {
-                  "$ref": "#/definitions/CommentsDetails"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "replies_count": {
-                      "type": "integer",
-                      "format": "int64"
-                    }
+      "type": "object",
+      "properties": {
+        "post_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "posted_by": {
+          "$ref": "#/definitions/UserDetails"
+        },
+        "posted_at": {
+          "type": "string"
+        },
+        "post_content": {
+          "type": "string"
+        },
+        "reactions": {
+          "$ref": "#/definitions/ReactionsDetails"
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/CommentsDetails"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "replies_count": {
+                    "type": "integer",
+                    "format": "int64"
                   }
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "replies": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/definitions/CommentsDetails"
-                      }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "replies": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/CommentsDetails"
                     }
                   }
                 }
-              ]
-            }
-          },
-          "comments_count": {
-            "type": "integer",
-            "format": "int64"
+              }
+            ]
           }
         },
+        "comments_count": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
       "required": [
         "post_id",
         "posted_by",
         "posted_at",
         "post_content"
       ]
-    }
-  },
-
-  "parameters": {
-    "CreatePost": {
-      "description": "Post to create",
-      "name": "PostDetails",
-      "in": "body",
-      "required": true,
-      "schema": {
-        "$ref": "#/definitions/PostDetails"
-      }
-    }
-  },
-  "responses": {
-    "CreatePostSuccessResponse": {
-      "description": "Object created",
-      "schema": {
-        "$ref": "#/definitions/PostResponseDetails"
-      }
     },
-    "CreatePostFailureResponse": {
-      "description": "Not Found",
-      "schema": {
-        "$ref": "#/definitions/CreatePostFailure"
-      }
-    },
-    "GetPostFailureResponse": {
-      "description": "Not Found",
-      "schema": {
-        "$ref": "#/definitions/GetPostFailure"
-      }
-    },
-    "GetPostSuccessResponseDetails": {
-      "description": "Get Post Details",
-      "schema": {
+    "GetAllPostDetails": {
+      "type": "array",
+      "items": {
         "$ref": "#/definitions/GetPostDetails"
       }
     }
+  },
+    "parameters": {
+      "CreatePost": {
+        "description": "Post to create",
+        "name": "PostDetails",
+        "in": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/PostDetails"
+        }
+      }
+    },
+    "responses": {
+      "CreatePostSuccessResponse": {
+        "description": "Object created",
+        "schema": {
+          "$ref": "#/definitions/PostResponseDetails"
+        }
+      },
+      "CreatePostFailureResponse": {
+        "description": "Not Found",
+        "schema": {
+          "$ref": "#/definitions/CreatePostFailure"
+        }
+      },
+      "GetPostFailureResponse": {
+        "description": "Not Found",
+        "schema": {
+          "$ref": "#/definitions/GetPostFailure"
+        }
+      },
+      "GetPostSuccessResponseDetails": {
+        "description": "Get Post Details",
+        "schema": {
+          "$ref": "#/definitions/GetPostDetails"
+        }
+      },
+      "GetAllPostSuccessResponseDetails": {
+        "description": "Get Post Details",
+        "schema": {
+          "$ref": "#/definitions/GetAllPostDetails"
+        }
+      }
   },
   "paths": {
     "/create/": {
@@ -327,9 +336,29 @@
           }
         }
       }
+    },
+    "/get_all_posts/": {
+      "get": {
+        "operationId": "get_all_post",
+        "summary": "Get all post details",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetAllPostSuccessResponseDetails"
+          }
+        }
+      }
     }
   }
 }
+
+
+
+
+
+
+
+
 
 
 

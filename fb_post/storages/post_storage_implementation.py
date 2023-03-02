@@ -1,3 +1,5 @@
+from typing import List
+
 from django.db.models import Count
 
 from fb_post.exceptions.custom_exceptions import InvalidPostException
@@ -30,5 +32,10 @@ class PostStorageImplementation(PostStorageInterface):
                 content=post.content
             )
             return post_dto
+
+    def get_all_post_ids(self) -> List[int]:
+        posts = Post.objects.all()
+        post_ids = list(post.id for post in posts)
+        return post_ids
 
 

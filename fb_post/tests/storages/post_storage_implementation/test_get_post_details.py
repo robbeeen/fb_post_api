@@ -3,7 +3,7 @@ import unittest
 import pytest
 from fb_post.storages.post_storage_implementation import \
     PostStorageImplementation
-from fb_post.tests.factories.models import UserFactory, PostFactory
+from fb_post.tests.factories.models import PostFactory
 from fb_post.tests.factories.storage_dtos import PostDtoFactory
 
 
@@ -12,7 +12,6 @@ class TestGetPostDetails(unittest.TestCase):
 
     def test_get_post_details(self):
         # arrange
-        UserFactory()
         PostFactory()
         expected_post_dto = PostDtoFactory()
         post_storage = PostStorageImplementation()
