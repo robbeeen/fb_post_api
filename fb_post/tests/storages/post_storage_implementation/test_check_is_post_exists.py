@@ -5,14 +5,13 @@ import pytest
 
 from fb_post.storages.post_storage_implementation import \
     PostStorageImplementation
-from fb_post.tests.factories.models import PostFactory, UserFactory
+from fb_post.tests.factories.models import PostFactory
 
 
 class PostExistsOrNotTest(unittest.TestCase):
     @pytest.mark.django_db
     def test_check_is_post_exists(self):
         # Arrange
-        UserFactory(id=1)
         expected_output = True
         post_storage = PostStorageImplementation()
         PostFactory()

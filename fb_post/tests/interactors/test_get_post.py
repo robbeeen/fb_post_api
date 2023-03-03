@@ -2,33 +2,32 @@ import json
 
 import pytest
 from unittest.mock import create_autospec, Mock
-
+from mock import patch
 import snapshottest
 
 from fb_post.interactors.get_post_interactor import GetPostInteractor
 from fb_post.interactors.presenter_interfaces.dtos import GetPostResponseDto
-from fb_post.interactors.presenter_interfaces.presenter_interface_create_post import \
-    PresenterInterface
+from fb_post.interactors.presenter_interfaces.presenter_interface_get_post import \
+    PresenterInterfaceGetPost
 from fb_post.interactors.storage_interfaces.comment_storage_interface import \
     CommentStorageInterface
 from fb_post.interactors.storage_interfaces.post_storage_interface import \
     PostStorageInterface
 from fb_post.interactors.storage_interfaces.reaction_storage_interface import \
     ReactionStorageInterface
-from fb_post.interactors.storage_interfaces.user_storage_interface import \
-    UserStorageInterface
 from fb_post.tests.factories.storage_dtos import PostDtoFactory, \
-    ReactionDtoFactory, \
-    UserDtoFactory, CommentDtoFactory
+    ReactionDtoFactory, CommentDtoFactory
 
 
 class TestInteractorGetPost:
 
     @pytest.fixture()
-    def response_dto(self):
+    @patch('fb_post.adapters.fb_post_auth_adapter.FbPostAuthAdapter.'
+           'get_user_dtos')
+    def response_dto(self, user_dtos):
         response_dto = GetPostResponseDto(
-            user_dtos=[UserDtoFactory()],
             post_dto=PostDtoFactory(content='Content 1'),
+            user_dtos=user_dtos[1, 2],
             comment_dtos=[CommentDtoFactory(comment_id=1, post_id=1)],
             reply_dtos=[CommentDtoFactory(comment_id=2, post_id=None,
                                           parent_comment_id=1)],
@@ -42,7 +41,10 @@ class TestInteractorGetPost:
 
         return response_dto
 
-    def test_get_post_with_valid_post_id(self, response_dto, snapshot):
+    @patch('fb_post.adapters.fb_post_auth_adapter.FbPostAuthAdapter.'
+           'get_user_dtos')
+    def test_get_post_with_valid_post_id(self, get_user_dtos, response_dto):
+        pass
         post_id = 1
         reaction_on_post_dto = [ReactionDtoFactory(
             post_id=1,
@@ -54,22 +56,18 @@ class TestInteractorGetPost:
             ReactionDtoFactory(post_id=None, type="WOW", comment_id=1)]
 
         post_storage = create_autospec(PostStorageInterface)
-        user_storage = create_autospec(UserStorageInterface)
         comment_storage = create_autospec(CommentStorageInterface)
         reaction_storage = create_autospec(ReactionStorageInterface)
-        presenter = create_autospec(PresenterInterface)
-        interactor = GetPostInteractor(
-            post_storage=post_storage,
-            user_storage=user_storage,
-            comment_storage=comment_storage,
-            reaction_storage=reaction_storage,
-            presenter=presenter
-        )
+        presenter = create_autospec(PresenterInterfaceGetPost)
+        interactor = GetPostInteractor(post_storage=post_storage,
+                                       comment_storage=comment_storage,
+                                       reaction_storage=reaction_storage,
+                                       presenter=presenter)
         post_storage.is_post_exists.return_value = True
         post_storage.get_post_details.return_value = response_dto.post_dto
         comment_storage.get_comments_on_post.return_value = response_dto.comment_dtos
         comment_storage.get_replies_dtos.return_value = response_dto.reply_dtos
-        user_storage.get_users_dtos.return_value = response_dto.user_dtos
+        get_user_dtos.return_value = response_dto.user_dtos
         reaction_storage.get_reactions_on_post.return_value = reaction_on_post_dto
         reaction_storage.get_reactions_on_comments.return_value = reaction_on_comment_dtos
 
@@ -90,7 +88,7 @@ class TestInteractorGetPost:
         post_storage.get_post_details.assert_called_once_with(post_id)
         comment_storage.get_comments_on_post.assert_called_once_with(post_id)
         comment_storage.get_replies_dtos.assert_called_once_with(comments_ids)
-        user_storage.get_users_dtos.assert_called_once_with(commenters_ids)
+        get_user_dtos.assert_called_once_with(user_ids=commenters_ids)
         reaction_storage.get_reactions_on_post.assert_called_once_with(post_id)
         reaction_storage.get_reactions_on_comments.assert_called_once_with(
             comments_ids)
@@ -101,17 +99,13 @@ class TestInteractorGetPost:
         # Arrange
         post_id = 0
         post_storage = create_autospec(PostStorageInterface)
-        user_storage = create_autospec(UserStorageInterface)
         comment_storage = create_autospec(CommentStorageInterface)
         reaction_storage = create_autospec(ReactionStorageInterface)
-        presenter = create_autospec(PresenterInterface)
-        interactor = GetPostInteractor(
-            post_storage=post_storage,
-            user_storage=user_storage,
-            comment_storage=comment_storage,
-            reaction_storage=reaction_storage,
-            presenter=presenter
-        )
+        presenter = create_autospec(PresenterInterfaceGetPost)
+        interactor = GetPostInteractor(post_storage=post_storage,
+                                       comment_storage=comment_storage,
+                                       reaction_storage=reaction_storage,
+                                       presenter=presenter)
         post_storage.is_post_exists.return_value = False
         presenter_response = Mock()
         presenter.get_invalid_get_post_response.return_value = presenter_response

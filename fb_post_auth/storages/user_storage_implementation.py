@@ -1,9 +1,9 @@
 from typing import List
 
-from fb_post.interactors.storage_interfaces.dtos import UserDto
-from fb_post.models.user import User
-from fb_post.interactors.storage_interfaces.user_storage_interface import \
+from fb_post_auth.interactors.storage_interfaces.dtos import UserDto
+from fb_post_auth.interactors.storage_interfaces.user_storage_interface import \
     UserStorageInterface
+from fb_post_auth.models.user import User
 
 
 class UserStorageImplementation(UserStorageInterface):
@@ -11,7 +11,7 @@ class UserStorageImplementation(UserStorageInterface):
     def is_user_exists(self, user_id: int) -> bool:
         return User.objects.filter(id=user_id).exists()
 
-    def get_users_dtos(self, user_ids: List[int]) -> List[UserDto]:
+    def generate_users_dtos(self, user_ids: List[int]) -> List[UserDto]:
         users = User.objects.filter(
             id__in=user_ids)
 

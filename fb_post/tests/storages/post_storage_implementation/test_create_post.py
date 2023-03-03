@@ -1,6 +1,6 @@
 import pytest
 
-from fb_post.tests.factories.models import UserFactory, PostFactory
+from fb_post.tests.factories.models import PostFactory
 import unittest
 from fb_post.models.post import Post
 
@@ -16,10 +16,10 @@ class CreatePostTest(unittest.TestCase):
         post_content = "New Post"
         expected_output = True
         post_storage = PostStorageImplementation()
-        user = UserFactory(id=user_id)
+        # user = UserFactory(id=user_id)
 
         # Act
-        post_id = post_storage.create_post(user_id=user.id,
+        post_id = post_storage.create_post(user_id=user_id,
                                            post_content=post_content)
         # Assert
         actual_output = Post.objects.filter(id=post_id).exists()

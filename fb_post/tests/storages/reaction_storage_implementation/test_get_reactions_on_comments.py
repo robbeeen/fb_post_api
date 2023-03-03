@@ -5,8 +5,7 @@ import pytest
 from fb_post.interactors.storage_interfaces.dtos import ReactionDto
 from fb_post.storages.reaction_storage_implementation import \
     ReactionStorageImplementation
-from fb_post.tests.factories.models import PostFactory, ReactionFactory, \
-    UserFactory, CommentFactory
+from fb_post.tests.factories.models import PostFactory, ReactionFactory, CommentFactory
 
 
 @pytest.mark.django_db
@@ -15,8 +14,6 @@ class TestGetPostReactionsOnComments(unittest.TestCase):
     def test_get_reactions_on_comments(self):
         # Arrange
         reaction_storage = ReactionStorageImplementation()
-        UserFactory(id=1)
-        UserFactory(id=2)
         PostFactory(id=1, posted_by_id=1)
         CommentFactory(id=1, post_id=1, commented_by_id=1)
         ReactionFactory(reaction="WOW",

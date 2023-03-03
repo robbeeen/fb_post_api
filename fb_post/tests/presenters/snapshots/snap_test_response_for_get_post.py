@@ -30,7 +30,11 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post response_content'] 
                     'comment_content': ' content 1',
                     'comment_id': 2,
                     'commented_at': '2023-02-01 15:06:00',
-                    'commenter': None,
+                    'commenter': {
+                        'name': ' user_1',
+                        'profile_pic': '  user_1@url',
+                        'user_id': 1
+                    },
                     'reactions': {
                         'count': 0,
                         'type': [
@@ -141,7 +145,11 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post_comment_replies_onl
                     'comment_content': ' content 1',
                     'comment_id': 2,
                     'commented_at': '2023-02-01 15:06:00',
-                    'commenter': None,
+                    'commenter': {
+                        'name': ' user_1',
+                        'profile_pic': '  user_1@url',
+                        'user_id': 1
+                    },
                     'reactions': {
                         'count': 0,
                         'type': [
