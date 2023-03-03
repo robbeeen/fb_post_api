@@ -6,6 +6,7 @@ from fb_post.interactors.presenter_interfaces.presenter_interface_get_post impor
     PresenterInterfaceGetPost
 from fb_post.interactors.storage_interfaces.comment_storage_interface import \
     CommentStorageInterface
+from fb_post.interactors.storage_interfaces.dtos import GetPostParametersDto
 from fb_post.interactors.storage_interfaces.post_storage_interface import \
     PostStorageInterface
 from fb_post.interactors.storage_interfaces.reaction_storage_interface import \
@@ -30,7 +31,8 @@ class GetPostInteractor:
         except InvalidPostException:
             return self.presenter.get_invalid_get_post_response()
 
-    def get_post(self, post_id: int) -> GetPostResponseDto:
+    def get_post(self, post_id: int,
+                 get_post_parameters_dto: GetPostParametersDto) -> GetPostResponseDto:
         self._validate_post_id(post_id)
         post_dto = self.post_storage.get_post_details(post_id=post_id)
         comments_on_post_dtos = self.comment_storage.get_comments_on_post(

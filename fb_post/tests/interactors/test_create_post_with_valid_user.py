@@ -11,7 +11,7 @@ class TestInteractorCreatePost:
 
     @patch('fb_post.adapters.fb_post_auth_adapter.FbPostAuthAdapter'
            '.is_user_exists')
-    def test_create_post_with_user_valid_user(self, user_exists):
+    def test_create_post_with_user_valid_user(self, is_user_exists_mock):
         # Arrange
         user_id = 1
         post_id = 2
@@ -21,7 +21,7 @@ class TestInteractorCreatePost:
         interactor = CreatePostInteractor(post_storage=post_storage,
                                           presenter=presenter,
                                           post_content=post_content)
-        user_exists.return_value = True
+        is_user_exists_mock.return_value = True
         post_storage.create_post.return_value = post_id
         presenter_response = {
             "post_id": post_id
@@ -31,7 +31,7 @@ class TestInteractorCreatePost:
         response = interactor.create_post_wrapper(user_id=user_id,
                                                   post_content=post_content)
         # Assert
-        user_exists.assert_called_once_with(user_id)
+        is_user_exists_mock.assert_called_once_with(user_id)
         post_storage.create_post.assert_called_once_with(
             user_id=user_id,
             post_content=post_content)
@@ -40,7 +40,7 @@ class TestInteractorCreatePost:
 
     @patch('fb_post.adapters.fb_post_auth_adapter.FbPostAuthAdapter'
            '.is_user_exists')
-    def test_create_post_with_invalid_user(self, user_exists):
+    def test_create_post_with_invalid_user(self, is_user_exists_mock):
         # Arrange
         user_id = 0
         post_content = "Invalid Post Content"
@@ -51,7 +51,7 @@ class TestInteractorCreatePost:
                                           presenter=presenter,
                                           post_content=post_content)
 
-        user_exists.return_value = False
+        is_user_exists_mock.return_value = False
         presenter_response = Mock()
         presenter.get_invalid_user_response.return_value = presenter_response
 
@@ -60,7 +60,7 @@ class TestInteractorCreatePost:
                                                   post_content=post_content)
 
         # Assert
-        user_exists.assert_called_once_with(user_id)
+        is_user_exists_mock.assert_called_once_with(user_id)
         presenter.get_invalid_user_response.assert_called_once()
 
         assert response == presenter_response

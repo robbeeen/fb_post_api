@@ -21,8 +21,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_post response_content'] 
             'reactions': {
                 'count': 2,
                 'type': [
-                    'LIT',
-                    'WOW'
+                    'WOW',
+                    'LIT'
                 ]
             },
             'replies': [

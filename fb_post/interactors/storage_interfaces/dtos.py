@@ -4,13 +4,6 @@ from typing import List
 
 
 @dataclass()
-class UserDto:
-    name: str
-    user_id: int
-    profile_pic: str
-
-
-@dataclass()
 class ReactionDto:
     type: str
     post_id: typing.Optional[int] = None
@@ -35,3 +28,9 @@ class PostDto:
     content: str
 
 
+@dataclass
+class GetPostParametersDto:
+    offset: int
+    limit: int
+    sortby: typing.Any
+    filterby: str

@@ -250,48 +250,79 @@
       }
     }
   },
-    "parameters": {
-      "CreatePost": {
-        "description": "Post to create",
-        "name": "PostDetails",
-        "in": "body",
-        "required": true,
-        "schema": {
-          "$ref": "#/definitions/PostDetails"
-        }
+  "parameters": {
+    "CreatePost": {
+      "description": "Post to create",
+      "name": "PostDetails",
+      "in": "body",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/PostDetails"
       }
     },
-    "responses": {
-      "CreatePostSuccessResponse": {
-        "description": "Object created",
-        "schema": {
-          "$ref": "#/definitions/PostResponseDetails"
-        }
-      },
-      "CreatePostFailureResponse": {
-        "description": "Not Found",
-        "schema": {
-          "$ref": "#/definitions/CreatePostFailure"
-        }
-      },
-      "GetPostFailureResponse": {
-        "description": "Not Found",
-        "schema": {
-          "$ref": "#/definitions/GetPostFailure"
-        }
-      },
-      "GetPostSuccessResponseDetails": {
-        "description": "Get Post Details",
-        "schema": {
-          "$ref": "#/definitions/GetPostDetails"
-        }
-      },
-      "GetAllPostSuccessResponseDetails": {
-        "description": "Get Post Details",
-        "schema": {
-          "$ref": "#/definitions/GetAllPostDetails"
-        }
+    "Offset": {
+      "name": "offset",
+      "in": "query",
+      "description": "offset value",
+      "required": true,
+      "type": "integer",
+      "format": "int64"
+    },
+    "Limit": {
+      "name": "limit",
+      "in": "query",
+      "description": "limit value",
+      "required": true,
+      "type": "integer",
+      "format": "int64"
+    },
+    "Filter": {
+      "name": "filter",
+      "in": "query",
+      "description": "filtering value",
+      "required": false,
+      "type": "string"
+    },
+    "SortBy": {
+      "name": "sortby",
+      "in": "query",
+      "description": "sortby value",
+      "required": true,
+      "type": "string",
+      "enum": ["posted_at","post_id"]
+    }
+  },
+  "responses": {
+    "CreatePostSuccessResponse": {
+      "description": "Object created",
+      "schema": {
+        "$ref": "#/definitions/PostResponseDetails"
       }
+    },
+    "CreatePostFailureResponse": {
+      "description": "Not Found",
+      "schema": {
+        "$ref": "#/definitions/CreatePostFailure"
+      }
+    },
+    "GetPostFailureResponse": {
+      "description": "Not Found",
+      "schema": {
+        "$ref": "#/definitions/GetPostFailure"
+      }
+    },
+    "GetPostSuccessResponseDetails": {
+      "description": "Get Post Details",
+      "schema": {
+        "$ref": "#/definitions/GetPostDetails"
+      }
+    },
+    "GetAllPostSuccessResponseDetails": {
+      "description": "Get Post Details",
+      "schema": {
+        "$ref": "#/definitions/GetAllPostDetails"
+      }
+    }
   },
   "paths": {
     "/create/": {
@@ -339,9 +370,22 @@
     },
     "/get_all_posts/": {
       "get": {
-        "operationId": "get_all_post",
+        "operationId": "get_all_posts",
         "summary": "Get all post details",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/parameters/Offset"
+          },
+          {
+            "$ref": "#/parameters/Limit"
+          },
+          {
+            "$ref": "#/parameters/Filter"
+          },
+          {
+            "$ref": "#/parameters/SortBy"
+          }
+        ],
         "responses": {
           "200": {
             "$ref": "#/responses/GetAllPostSuccessResponseDetails"

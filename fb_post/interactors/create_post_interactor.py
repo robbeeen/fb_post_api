@@ -8,11 +8,10 @@ from fb_post.exceptions.custom_exceptions import InvalidUserException
 
 class CreatePostInteractor:
     def __init__(self, post_storage: PostStorageInterface,
-                 presenter: PresenterInterfaceCreatePost, post_content: str):
+                 presenter: PresenterInterfaceCreatePost):
 
         self.post_storage = post_storage
         self.presenter = presenter
-        self.post_content = post_content
 
     def create_post_wrapper(self, user_id: int, post_content: str) -> Any:
         try:
@@ -30,7 +29,8 @@ class CreatePostInteractor:
 
         return post_id
 
-    def _validate_user_id(self, user_id: int) -> None:
+    @staticmethod
+    def _validate_user_id(user_id: int) -> None:
         from fb_post.adapters.service_adapter import get_service_adapter
         adapter = get_service_adapter()
         if not adapter.fb_post_auth.is_user_exists(user_id):

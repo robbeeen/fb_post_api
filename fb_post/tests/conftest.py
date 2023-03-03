@@ -1,7 +1,7 @@
 import pytest
 
 from fb_post.tests.factories.adapter_dtos import UserDtoFactory
-from fb_post.tests.factories.models import  PostFactory, \
+from fb_post.tests.factories.models import PostFactory, \
     ReactionFactory, CommentFactory
 from fb_post.tests.factories.storage_dtos import PostDtoFactory, CommentDtoFactory, \
     ReactionDtoFactory

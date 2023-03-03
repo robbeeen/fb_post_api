@@ -3,15 +3,24 @@ from collections import defaultdict
 from typing import List, Any, Dict
 
 from django.http import HttpResponse
+from django_swagger_utils.drf_server.exceptions import BadRequest
 
+from fb_post.adapters.fb_post_auth_adapter import UserDto
+from fb_post.constants.exception_messages import INVALID_OFFSET_LENGTH, \
+    INVALID_LIMIT_LENGTH
 from fb_post.interactors.presenter_interfaces.dtos import GetPostResponseDto
 from fb_post.interactors.presenter_interfaces.presenter_interface_get_all_post import \
     PresenterInterfaceGetAllPost
-from fb_post.interactors.storage_interfaces.dtos import UserDto, \
-    ReactionDto, CommentDto
+from fb_post.interactors.storage_interfaces.dtos import ReactionDto, CommentDto
 
 
 class PresenterImplementationGetAllPost(PresenterInterfaceGetAllPost):
+
+    def raise_exception_for_invalid_offset_length(self):
+        raise BadRequest(*INVALID_OFFSET_LENGTH)
+
+    def raise_exception_for_invalid_limit_length(self):
+        raise BadRequest(*INVALID_LIMIT_LENGTH)
 
     def get_success_all_post_response(self,
                                       response_dtos: List[

@@ -21,4 +21,8 @@ class FbPostAuthAdapter:
 
     def get_user_dtos(self, user_ids: List[int]) -> List[UserDto]:
         user_dtos = self.interface.get_user_dto_list(user_ids=user_ids)
-        return user_dtos
+        return [UserDto(
+            user_id=user_dto.user_id,
+            name=user_dto.name,
+            profile_pic=user_dto.profile_pic
+        ) for user_dto in user_dtos]

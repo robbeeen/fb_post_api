@@ -19,8 +19,7 @@ def api_wrapper(*args, **kwargs) -> int:
     presenter = PresenterImplementationCreatePost()
 
     interactor = CreatePostInteractor(post_storage=post_storage,
-                                      presenter=presenter,
-                                      post_content=post_content)
+                                      presenter=presenter)
 
     response = interactor.create_post_wrapper(
         user_id=user_id, post_content=post_content)
