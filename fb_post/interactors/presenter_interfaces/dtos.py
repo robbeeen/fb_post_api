@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import List
 
-from fb_post.interactors.storage_interfaces.dtos import PostDto, UserDto, \
-    CommentDto, ReactionDto
+from fb_post.adapters.fb_post_auth_adapter import UserDto
+from fb_post.interactors.storage_interfaces.dtos import PostDto,CommentDto, ReactionDto
 
 
 @dataclass()

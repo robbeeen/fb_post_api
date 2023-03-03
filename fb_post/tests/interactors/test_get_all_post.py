@@ -94,7 +94,8 @@ class TestGetAllPostInteractor:
         get_post.side_effect = list_of_response_dtos
 
         # Act
-        interactor.get_all_post_wrapper()
+        interactor.get_all_post_wrapper(offset=0, limit=10, filterby="",
+                                        sortby="", sortby_order="")
 
         # Assert
         post_storage.get_all_post_ids.assert_called_once()

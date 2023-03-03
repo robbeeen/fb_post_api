@@ -32,7 +32,7 @@ class TestPresenterGetPost:
         # Arrange
 
         response_dto = GetPostResponseDto(
-            user_dtos=[UserDtoFactory()],
+            user_dtos=[UserDtoFactory(user_id=1)],
             post_dto=PostDtoFactory(content='Content 1'),
             comment_dtos=[CommentDtoFactory(comment_id=1, post_id=1)],
             reply_dtos=[CommentDtoFactory(comment_id=2, post_id=None,
@@ -40,8 +40,8 @@ class TestPresenterGetPost:
             reactions_on_post_dtos=[
                 ReactionDtoFactory(post_id=1, type="WOW", comment_id=None)],
             reactions_on_comments_dtos=[
-                ReactionDtoFactory(post_id=None, type="LIT", comment_id=1),
-                ReactionDtoFactory(post_id=None, type="WOW", comment_id=1)
+                ReactionDtoFactory(post_id=None, type="WOW", comment_id=1),
+                ReactionDtoFactory(post_id=None, type="LIT", comment_id=1)
             ]
         )
         presenter = PresenterImplementationGetPost()

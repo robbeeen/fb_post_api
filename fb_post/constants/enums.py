@@ -9,3 +9,8 @@ class ReactionENUM(BaseEnumClass, enum.Enum):
     THUMBS_UP = 'THUMBS_UP'
     ANGRY = 'ANGRY'
     SAD = 'SAD'
+
+
+class Sort(BaseEnumClass, enum.Enum):
+    ID = 'id'
+    POSTED_AT = 'posted_at'

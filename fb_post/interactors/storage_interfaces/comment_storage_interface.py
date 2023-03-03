@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Tuple
 
-from fb_post.interactors.storage_interfaces.dtos import CommentDto, UserDto
+from fb_post.interactors.storage_interfaces.dtos import CommentDto
 from fb_post.models.comment import Comment
 
 

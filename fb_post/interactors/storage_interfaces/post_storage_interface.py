@@ -2,7 +2,8 @@ from abc import abstractmethod
 from abc import ABC
 from typing import List
 
-from fb_post.interactors.storage_interfaces.dtos import PostDto
+from fb_post.interactors.storage_interfaces.dtos import PostDto, \
+    GetPostParametersDto
 from fb_post.models.post import Post
 
 
@@ -20,5 +21,5 @@ class PostStorageInterface(ABC):
         pass
 
     @abstractmethod
-    def get_all_post_ids(self) -> List[int]:
+    def get_all_post_ids(self,  get_post_parameters_dto: GetPostParametersDto) -> List[int]:
         pass

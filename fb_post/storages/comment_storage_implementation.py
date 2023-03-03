@@ -1,8 +1,7 @@
 import typing
 from typing import List, Tuple
 
-from fb_post.interactors.storage_interfaces.dtos import CommentDto, \
-    UserDto
+from fb_post.interactors.storage_interfaces.dtos import CommentDto
 from fb_post.models.comment import Comment
 from fb_post.interactors.storage_interfaces.comment_storage_interface import \
     CommentStorageInterface

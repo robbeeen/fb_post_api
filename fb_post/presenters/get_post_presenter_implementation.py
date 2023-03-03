@@ -4,12 +4,12 @@ from typing import List, Any, Dict
 
 from django.http import HttpResponse
 
+from fb_post.adapters.fb_post_auth_adapter import UserDto
 from fb_post.interactors.presenter_interfaces.dtos import GetPostResponseDto
 from fb_post.interactors.presenter_interfaces.presenter_interface_get_post import \
     PresenterInterfaceGetPost
 from fb_post.constants.exception_messages import INVALID_POST_ID
-from fb_post.interactors.storage_interfaces.dtos import UserDto, \
-    ReactionDto, CommentDto
+from fb_post.interactors.storage_interfaces.dtos import ReactionDto, CommentDto
 
 
 class PresenterImplementationGetPost(PresenterInterfaceGetPost):

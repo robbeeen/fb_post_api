@@ -31,10 +31,11 @@ class GetPostInteractor:
         except InvalidPostException:
             return self.presenter.get_invalid_get_post_response()
 
-    def get_post(self, post_id: int,
-                 get_post_parameters_dto: GetPostParametersDto) -> GetPostResponseDto:
+    def get_post(self, post_id: int) -> GetPostResponseDto:
         self._validate_post_id(post_id)
+
         post_dto = self.post_storage.get_post_details(post_id=post_id)
+
         comments_on_post_dtos = self.comment_storage.get_comments_on_post(
             post_dto.post_id)
 

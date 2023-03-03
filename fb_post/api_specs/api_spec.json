@@ -277,7 +277,7 @@
       "format": "int64"
     },
     "Filter": {
-      "name": "filter",
+      "name": "filterby",
       "in": "query",
       "description": "filtering value",
       "required": false,
@@ -287,9 +287,19 @@
       "name": "sortby",
       "in": "query",
       "description": "sortby value",
-      "required": true,
+      "required": false,
       "type": "string",
-      "enum": ["posted_at","post_id"]
+      "enum": [
+        "posted_at",
+        "id"
+      ]
+    },
+    "SortByOrder": {
+      "name": "sortby_order",
+      "in": "query",
+      "description": "sortby value",
+      "required": false,
+      "type": "string"
     }
   },
   "responses": {
@@ -370,7 +380,7 @@
     },
     "/get_all_posts/": {
       "get": {
-        "operationId": "get_all_posts",
+        "operationId": "get_all_post",
         "summary": "Get all post details",
         "parameters": [
           {
@@ -384,6 +394,9 @@
           },
           {
             "$ref": "#/parameters/SortBy"
+          },
+          {
+            "$ref": "#/parameters/SortByOrder"
           }
         ],
         "responses": {

@@ -19,8 +19,7 @@ class TestInteractorCreatePost:
         post_storage = create_autospec(PostStorageInterface)
         presenter = create_autospec(PresenterInterfaceCreatePost)
         interactor = CreatePostInteractor(post_storage=post_storage,
-                                          presenter=presenter,
-                                          post_content=post_content)
+                                          presenter=presenter)
         is_user_exists_mock.return_value = True
         post_storage.create_post.return_value = post_id
         presenter_response = {
@@ -48,8 +47,7 @@ class TestInteractorCreatePost:
         post_storage = create_autospec(PostStorageInterface)
         presenter = create_autospec(PresenterInterfaceCreatePost)
         interactor = CreatePostInteractor(post_storage=post_storage,
-                                          presenter=presenter,
-                                          post_content=post_content)
+                                          presenter=presenter)
 
         is_user_exists_mock.return_value = False
         presenter_response = Mock()

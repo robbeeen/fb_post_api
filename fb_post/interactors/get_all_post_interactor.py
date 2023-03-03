@@ -31,23 +31,19 @@ class GetAllPostInteractor:
         self.get_post_presenter = get_post_presenter
 
     def get_all_post_wrapper(self, sortby: str, offset: int,
-                             limit: int, filterby: str) -> HttpResponse:
+                             limit: int, filterby: str,
+                             sortby_order: str) -> HttpResponse:
         list_of_response_dtos = self.get_all_post(sortby=sortby,
                                                   offset=offset,
                                                   limit=limit,
-                                                  filterby=filterby)
+                                                  filterby=filterby,
+                                                  sortby_order=sortby_order)
         return self.presenter.get_success_all_post_response(
             list_of_response_dtos)
 
     def get_all_post(self, sortby: str, offset: int,
-                     limit: int, filterby: str) -> \
+                     limit: int, filterby: str, sortby_order: str) -> \
             List[GetPostResponseDto]:
-        post_ids = self.post_storage.get_all_post_ids()
-        get_post_interactor = GetPostInteractor(
-            post_storage=self.post_storage,
-            comment_storage=self.comment_storage,
-            reaction_storage=self.reaction_storage,
-            presenter=self.get_post_presenter)
 
         if offset < 0:
             self.presenter.raise_exception_for_invalid_offset_length()
@@ -56,16 +52,24 @@ class GetAllPostInteractor:
         if limit < 0:
             self.presenter.raise_exception_for_invalid_limit_length()
             return
+
         get_post_parameters_dto = GetPostParametersDto(
             limit=limit,
             offset=offset,
             sortby=sortby,
-            filterby=filterby
+            filterby=filterby,
+            sortby_order=sortby_order
         )
+        post_ids = self.post_storage.get_all_post_ids(get_post_parameters_dto)
+
+        get_post_interactor = GetPostInteractor(
+            post_storage=self.post_storage,
+            comment_storage=self.comment_storage,
+            reaction_storage=self.reaction_storage,
+            presenter=self.get_post_presenter)
 
         list_of_response_dtos = list(
-            get_post_interactor.get_post(post_id=post_id,
-                                         get_post_parameters_dto=get_post_parameters_dto)
+            get_post_interactor.get_post(post_id=post_id)
             for post_id
             in post_ids)
         return list_of_response_dtos

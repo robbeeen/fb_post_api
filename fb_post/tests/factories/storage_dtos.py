@@ -4,7 +4,7 @@ import typing
 
 from fb_post.constants.enums import ReactionENUM
 from fb_post.interactors.storage_interfaces.dtos import CommentDto, PostDto, \
-    UserDto, ReactionDto
+    ReactionDto, GetPostParametersDto
 
 
 class PostDtoFactory(factory.Factory):
@@ -33,6 +33,17 @@ class ReactionDtoFactory(factory.Factory):
     class Meta:
         model = ReactionDto
 
-    type: factory.Iterator(["HAHA", "WOW", "SAD"])
+    type = "HAHA"
     post_id: typing.Optional[int] = None
     comment_id: typing.Optional[int] = None
+
+
+class GetPostParametersDtoFactory(factory.Factory):
+    class Meta:
+        model = GetPostParametersDto
+
+    offset = 0
+    limit = 5
+    sortby: None
+    filterby: None
+    sortby_order: None

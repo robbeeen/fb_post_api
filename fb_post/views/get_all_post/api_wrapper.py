@@ -15,13 +15,11 @@ from ...storages.reaction_storage_implementation import \
 
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
-    print("*********")
-    print(kwargs)
     sortby = kwargs['request_query_params'].sortby
     offset = kwargs['request_query_params'].offset
     limit = kwargs['request_query_params'].limit
     filterby = kwargs['request_query_params'].filterby
-
+    sortby_order = kwargs['request_query_params'].sortby_order
     post_storage = PostStorageImplementation()
     comment_storage = CommentStorageImplementation()
     reaction_storage = ReactionStorageImplementation()
@@ -34,6 +32,7 @@ def api_wrapper(*args, **kwargs):
                                       get_post_presenter=get_post_presenter)
 
     response = interactor.get_all_post_wrapper(sortby=sortby, offset=offset,
-                                               limit=limit, filterby=filterby)
+                                               limit=limit, filterby=filterby,
+                                               sortby_order=sortby_order)
 
     return response

@@ -26,7 +26,7 @@ class TestCase01GetAllPostAPITestCase(TestUtils):
     def test_case(self, user_dtos, snapshot):
         body = {}
         path_params = {}
-        query_params = {}
+        query_params = {"offset": 1, "limit": 5}
         headers = {}
         post_id = 1
         PostFactory(id=post_id, posted_by_id=1)

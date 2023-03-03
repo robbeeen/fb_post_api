@@ -34,3 +34,4 @@ class GetPostParametersDto:
     limit: int
     sortby: typing.Any
     filterby: str
+    sortby_order: str

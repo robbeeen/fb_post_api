@@ -22,8 +22,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_posts response_content']
                 'reactions': {
                     'count': 2,
                     'type': [
-                        'WOW',
-                        'LIT'
+                        'LIT',
+                        'WOW'
                     ]
                 },
                 'replies': [
@@ -76,8 +76,8 @@ snapshots['TestPresenterGetPost.test_response_for_valid_posts response_content']
                 'reactions': {
                     'count': 2,
                     'type': [
-                        'WOW',
-                        'LIT'
+                        'LIT',
+                        'WOW'
                     ]
                 },
                 'replies': [
